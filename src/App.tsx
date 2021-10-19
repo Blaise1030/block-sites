@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions from "./helper";
 import "./grid-styles.css";
+import Text from "./components/Text";
 
 const App = () => {
   const {width} = useWindowDimensions();
@@ -31,6 +32,10 @@ const App = () => {
     return layout;
   };
 
+  const removeGridItem = (id: string) => {
+    setLayout(layout.filter(({i}: any) => i !== id));
+  };
+
   return (
     <div className="flex flex-auto w-full py-20">
       <div
@@ -48,14 +53,16 @@ const App = () => {
         >
           {layout?.map(({i}: any) => (
             <div
-              className={
-                "border-2 border-gray-400 cursor-pointer box-border relative p-0.5"
-              }
+              className="border-2 border-gray-400 cursor-pointer box-border relative p-0.5"
               key={i}
             >
-              <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg">
-                {" "}
+              <div
+                className="absolute top-1 left-1"
+                onClick={() => removeGridItem(i)}
+              >
+                x
               </div>
+              <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg" />
               <GridTile />
             </div>
           ))}
@@ -68,18 +75,17 @@ const App = () => {
 export default App;
 
 const GridTile = React.memo(() => {
-  const color = [
-    "bg-indigo-200",
-    "bg-green-200",
-    "bg-red-200",
-    "bg-pink-200",
-    "bg-purple-200",
-    "bg-blue-200",
-    "bg-white",
-  ][Math.ceil(Math.random() * 6)];
   return (
-    <div className={` ${color} w-full h-full text-sm rounded`}>
-      This is the grid tile
+    <div className="bg-blue-200 w-full h-full rounded">
+      <Text
+        textVertical="justify-center"
+        textAlignment="text-justify"
+        textOpacity="600"
+        textStyle="italic"
+        textSize="text-xl"
+        textColor="green"
+        text="Hello"
+      />
     </div>
   );
 });
