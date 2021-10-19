@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import ReactGridLayout from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
 import useWindowDimensions from "./helper";
+import "./grid-styles.css";
 
 const App = () => {
-  const [layout, setLayout] = useState<any>();
   const {width} = useWindowDimensions();
-  const widthResolver = () => (width < 728 ? width : 800);
+  const [cols, _] = useState<number>(5);
+  const [layout, setLayout] = useState<any>();
+  const widthResolver = () => (width <= 1024 ? width : 900);
+  const [gridNum, setGridNum] = useState<number>(cols * cols);
 
   useEffect(() => {
     setLayout(layoutGenerator());
@@ -15,37 +17,46 @@ const App = () => {
   const layoutGenerator = () => {
     const layout = [];
     let y = 0;
-    for (let i = 0; i < 32; i++) {
-      if (i % 4 === 0 && i !== 0) y += 1;
+    for (let i = 0; i < cols * cols; i++) {
+      if (i % cols === 0 && i !== 0) y += 1;
       layout.push({
-        y,
+        resizeHandles: ["se"],
+        i: `${i}`,
+        x: i % cols,
         w: 1,
         h: 1,
-        i: `${i}`,
-        x: i % 4,
-        resizeHandles: ["se"],
+        y,
       });
     }
     return layout;
   };
 
   return (
-    <div className="flex flex-auto">
-      <div className="bg-white lg:w-800 w-full m-auto relative">
+    <div className="flex flex-auto w-full py-20">
+      <div
+        className=" m-auto relative border rounded"
+        style={{width: widthResolver()}}
+      >
         <ReactGridLayout
-          layout={layout}
-          containerPadding={[0, 0]}
-          preventCollision={false}
+          onLayoutChange={(a) => setLayout(a)}
+          rowHeight={widthResolver() / cols}
           width={widthResolver()}
           className="layout"
-          cols={4}
+          margin={[0, 0]}
+          layout={layout}
+          cols={cols}
         >
           {layout?.map(({i}: any) => (
             <div
+              className={
+                "border-2 border-gray-400 cursor-pointer box-border relative p-0.5"
+              }
               key={i}
-              className="border-2 cursor-pointer rounded bg-red-50 w-full h-full"
             >
-              {i}
+              <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg">
+                {" "}
+              </div>
+              <GridTile />
             </div>
           ))}
         </ReactGridLayout>
@@ -56,21 +67,19 @@ const App = () => {
 
 export default App;
 
-type GridTileProps = {
-  id: number;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-};
-const GridTile = ({id, x, y, w, h}: GridTileProps) => {
+const GridTile = React.memo(() => {
+  const color = [
+    "bg-indigo-200",
+    "bg-green-200",
+    "bg-red-200",
+    "bg-pink-200",
+    "bg-purple-200",
+    "bg-blue-200",
+    "bg-white",
+  ][Math.ceil(Math.random() * 6)];
   return (
-    <div
-      className=" cursor-pointer border-2 rounded"
-      data-grid={{x, y, w, h}}
-      key={id}
-    >
+    <div className={` ${color} w-full h-full text-sm rounded`}>
       This is the grid tile
     </div>
   );
-};
+});
