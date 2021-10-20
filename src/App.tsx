@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions from "./helper";
 import "./grid-styles.css";
 import Text from "./components/Text";
 
 const App = () => {
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const [cols, _] = useState<number>(5);
   const [layout, setLayout] = useState<any>();
   const widthResolver = () => (width <= 1024 ? width : 900);
@@ -33,14 +33,14 @@ const App = () => {
   };
 
   const removeGridItem = (id: string) => {
-    setLayout(layout.filter(({i}: any) => i !== id));
+    setLayout(layout.filter(({ i }: any) => i !== id));
   };
 
   return (
     <div className="flex flex-auto w-full py-20">
       <div
         className=" m-auto relative border rounded"
-        style={{width: widthResolver()}}
+        style={{ width: widthResolver() }}
       >
         <ReactGridLayout
           onLayoutChange={(a) => setLayout(a)}
@@ -51,7 +51,7 @@ const App = () => {
           layout={layout}
           cols={cols}
         >
-          {layout?.map(({i}: any) => (
+          {layout ?.map(({ i }: any) => (
             <div
               className="border-2 border-gray-400 cursor-pointer box-border relative p-0.5"
               key={i}
