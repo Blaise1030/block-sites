@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import {EditorContext} from "../contexts/EditorContext";
 
 import {
   backgroundColorComposer,
@@ -68,10 +69,21 @@ const Text = React.memo(
   }: TextProps) => {
     const [t, setText] = useState(text);
     const [onDoubleClick, setOnDoubleClick] = useState(false);
+    const editor = useContext(EditorContext);
+
+    const inflateEditor = () => {
+      setOnDoubleClick(true);
+      editor.setEditor(<TextEditor />);
+    };
+
+    const deflateEditor = () => {
+      editor.setEditor(null);
+    };
 
     return (
       <div
-        onDoubleClick={() => setOnDoubleClick(true)}
+        onDoubleClick={inflateEditor}
+        onMouseLeave={(e) => setOnDoubleClick(false)}
         className={`
             p-0.5
             flex
@@ -111,8 +123,6 @@ const Text = React.memo(
         )}
         {onDoubleClick && (
           <TextareaAutosize
-            autoFocus
-            value={t}
             className={`
             p-2
             h-min
@@ -128,8 +138,9 @@ const Text = React.memo(
               opacity: textOpacity,
             })}            
           `}
+            autoFocus
+            value={t}
             onHeightChange={(e) => console.log(e)}
-            onMouseLeave={(e) => setOnDoubleClick(false)}
             onChange={(e) => setText(e.target.value)}
           />
         )}
@@ -139,3 +150,16 @@ const Text = React.memo(
 );
 
 export default Text;
+
+const TextEditor = () => {
+  return (
+    <div className="flex flex-col">
+      <div>Font Size</div>
+      <div> Color </div>
+      <div> This is the text editor </div>
+      <div> This is the text editor </div>
+      <div> This is the text editor </div>
+      <div> This is the text editor </div>
+    </div>
+  );
+};
