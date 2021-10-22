@@ -1,4 +1,10 @@
 import React, {useState} from "react";
+import TextareaAutosize from "react-textarea-autosize";
+
+import {
+  backgroundColorComposer,
+  textColorComposer,
+} from "../helper/colorComposer";
 
 type TextProps = {
   textColor?:
@@ -11,6 +17,25 @@ type TextProps = {
     | "pink"
     | "gray";
   text: string;
+  backgroundOpacity?:
+    | "50"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800";
+  backgroundColor?:
+    | "purple"
+    | "indigo"
+    | "red"
+    | "blue"
+    | "green"
+    | "black"
+    | "pink"
+    | "gray";
   textWeight?: "font-bold";
   textStyle?: "italic" | "underline" | "line-through";
   textVertical?: "justify-top" | "justify-center" | "justify-end";
@@ -38,39 +63,75 @@ const Text = React.memo(
     textSize = "text-base",
     textAlignment = "text-left",
     textVertical = "justify-center",
+    backgroundColor = "gray",
+    backgroundOpacity = "100",
   }: TextProps) => {
     const [t, setText] = useState(text);
+    const [onDoubleClick, setOnDoubleClick] = useState(false);
 
     return (
       <div
-        className={`        
+        onDoubleClick={() => setOnDoubleClick(true)}
+        className={`
             flex
-            w-full 
-            h-full 
-            flex-col            
+            w-full
+            h-full
+            flex-col
             ${textSize}
             ${textStyle}
-            ${textVertical} 
-            ${textAlignment}            
+            ${textVertical}
+            ${textAlignment}         
+            ${backgroundColorComposer({
+              color: backgroundColor,
+              opacity: backgroundOpacity,
+            })}               
         `}
       >
-        <textarea
-          className={`                        
-            p-2                                            
-            h-min                                  
-            border-none            
-            resize-none 
+        {!onDoubleClick && (
+          <div
+            className={`
+            p-2
+            h-min
+            border-none
+            resize-none
             ${textStyle}
-            outline-none        
-            bg-transparent                  
-            ${textAlignment}            
+            outline-none
+            bg-transparent
             overflow-y-hidden
-            text-${textColor}-${textOpacity}
-            `}
-          onChange={(e) => setText(e.target.value)}
-          value={t}
-          rows={1}
-        ></textarea>
+            ${textAlignment}            
+            ${textColorComposer({
+              color: textColor,
+              opacity: textOpacity,
+            })}            
+          `}
+          >
+            {t}
+          </div>
+        )}
+        {onDoubleClick && (
+          <TextareaAutosize
+            autoFocus
+            value={t}
+            className={`
+            p-2
+            h-min
+            border-none
+            resize-none
+            ${textStyle}
+            outline-none
+            bg-transparent
+            overflow-y-hidden
+            ${textAlignment}            
+            ${textColorComposer({
+              color: textColor,
+              opacity: textOpacity,
+            })}            
+          `}
+            onHeightChange={(e) => console.log(e)}
+            onMouseLeave={(e) => setOnDoubleClick(false)}
+            onChange={(e) => setText(e.target.value)}
+          />
+        )}
       </div>
     );
   }
