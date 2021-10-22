@@ -73,6 +73,7 @@ const Text = React.memo(
       <div
         onDoubleClick={() => setOnDoubleClick(true)}
         className={`
+            p-0.5
             flex
             w-full
             h-full

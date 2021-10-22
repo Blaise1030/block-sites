@@ -3,6 +3,7 @@ import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions from "./helper";
 import "./grid-styles.css";
 import Text from "./components/Text";
+import Image from "./components/Image";
 
 const App = () => {
   const {width} = useWindowDimensions();
@@ -54,7 +55,7 @@ const App = () => {
         >
           {layout?.map(({i}: any) => (
             <div
-              className="border-2 border-gray-400 cursor-pointer box-border relative p-0.5"
+              className="border-2 border-gray-400 cursor-pointer box-border relative"
               key={i}
             >
               <div
@@ -64,7 +65,7 @@ const App = () => {
                 x
               </div>
               <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg" />
-              <GridTile />
+              <GridTile type={i % 2 == 0 ? "text" : "image"} />
             </div>
           ))}
         </ReactGridLayout>
@@ -75,20 +76,28 @@ const App = () => {
 
 export default App;
 
-const GridTile = React.memo(() => {
-  return (
-    <div className="w-full h-full rounded">
-      <Text
-        textVertical="justify-center"
-        textAlignment="text-justify"
-        backgroundColor="blue"
-        backgroundOpacity="200"
-        textOpacity="600"
-        textStyle="italic"
-        textSize="text-xl"
-        textColor="green"
-        text="Hello"
-      />
-    </div>
-  );
+const GridTile = React.memo(({type}: {type: string}) => {
+  const renderer = (type: string) => {
+    switch (type) {
+      case "text":
+        return (
+          <Text
+            textVertical="justify-center"
+            textAlignment="text-justify"
+            backgroundColor="blue"
+            backgroundOpacity="200"
+            textOpacity="600"
+            textStyle="italic"
+            textSize="text-xl"
+            textColor="green"
+            text="Hello"
+          />
+        );
+      case "image":
+        return (
+          <Image src="https://media.istockphoto.com/photos/young-man-arms-outstretched-by-the-sea-at-sunrise-enjoying-freedom-picture-id1285301614?s=612x612" />
+        );
+    }
+  };
+  return <div className="w-full h-full rounded">{renderer(type)}</div>;
 });
