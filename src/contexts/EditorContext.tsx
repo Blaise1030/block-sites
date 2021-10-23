@@ -26,7 +26,6 @@ const EditorRenderer = ({children}: any) => {
 
   const deflateEditor = (id: string) => {
     if (componentId !== id && editorComponent) {
-      console.log(componentId, id);
       setShowSideBar(false);
       setTimeout(() => setEditorComponent(null), 100);
       setComponentId(null);
