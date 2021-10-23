@@ -8,9 +8,12 @@ import {EditorContext} from "./contexts/EditorContext";
 
 const Creator = () => {
   const {width} = useWindowDimensions();
-  const [cols, _] = useState<number>(5);
+  const [cols, _] = useState<number>(3);
   const [layout, setLayout] = useState<any>();
   const {deflateEditor} = useContext(EditorContext);
+  const [backgroundImage, setBackgroundImage] = useState(
+    "https://www.freecodecamp.org/news/content/images/size/w2000/2021/06/w-qjCHPZbeXCQ-unsplash.jpg"
+  );
   const widthResolver = () => (width <= 1024 ? width : 900);
 
   useEffect(() => {
@@ -41,7 +44,15 @@ const Creator = () => {
   };
 
   return (
-    <div className="flex flex-auto w-full py-20 bg-red-50 h-full overflow-y-auto">
+    <div
+      className="flex flex-auto w-full py-20 h-full overflow-y-scroll overflow-x-hidden"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <ChangeBackgroundImage />
       <div
         className=" m-auto relative border rounded"
         style={{width: widthResolver()}}
@@ -76,6 +87,14 @@ const Creator = () => {
           ))}
         </ReactGridLayout>
       </div>
+    </div>
+  );
+};
+
+const ChangeBackgroundImage = () => {
+  return (
+    <div className="fixed bottom-2 right-5 p-10 cursor-pointer hover:underline">
+      Edit Background Image
     </div>
   );
 };
