@@ -3,7 +3,7 @@ import {Transition} from "@headlessui/react";
 
 type EditorContextType = {
   setEditor: (c: React.ReactElement, id: string) => void;
-  deflateEditor: (id: string) => void;
+  deflateEditor: (id: string | null) => void;
   componentId?: string | null;
 };
 export const EditorContext = createContext<EditorContextType>({
@@ -24,7 +24,7 @@ const EditorRenderer = ({children}: any) => {
     setEditorComponent(c);
   };
 
-  const deflateEditor = (id: string) => {
+  const deflateEditor = (id: string | null) => {
     if (componentId !== id && editorComponent) {
       setShowSideBar(false);
       setTimeout(() => setEditorComponent(null), 100);
@@ -45,12 +45,11 @@ const EditorRenderer = ({children}: any) => {
             leaveFrom="-translate-x-10"
             leaveTo="-translate-x-full"
           >
-            <div className="shadow backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
+            <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
               {editorComponent}
             </div>
           </Transition>
         </div>
-
         <main className="w-full h-full overflow-y-hidden">{children}</main>
       </div>
     </EditorContext.Provider>

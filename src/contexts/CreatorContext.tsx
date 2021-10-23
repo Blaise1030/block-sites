@@ -1,71 +1,97 @@
 import React, {createContext, useEffect, useState} from "react";
 
 type CreatorContextType = {
+  columns: number;
   layout: Array<any>;
   backgroundImage?: string;
-  setBackgroundImage?: (img: string) => void;
-  updateColumns: (col: number) => void;
   setLayout: (layout: any) => void;
-  columns: number;
+  updateColumns: (col: number) => void;
+  setBackgroundImage?: (img: string) => void;
+  onComponentUpdate: (data: any, id: string) => void;
 };
 
 export const CreatorContext = createContext<CreatorContextType>({
-  columns: 0,
   layout: [],
-  setLayout: (a: any) => {},
-  updateColumns: (a: number) => {},
+  columns: 0,
+  setLayout: () => {},
+  updateColumns: () => {},
+  onComponentUpdate: () => {},
 });
 
 const CreatorRenderer = ({children}: any) => {
   const [layout, setLayout] = useState<any>(null);
   const [columns, setColumns] = useState<number>(3);
   const [colIndex, setColIndex] = useState<number>(0);
-  const [backgroundImage, setBackgroundImage] = useState<string>(
-    "https://media.istockphoto.com/photos/light-grey-handpainted-textured-backdrop-studio-wall-picture-id1286462240?k=20&m=1286462240&s=612x612&w=0&h=4XBjI-ObesIrCuhJxJb_IOI5bj1-zqAL8B8LF_SRMgI="
-  );
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
     setColumns([3, 6, 9][Math.abs(colIndex + increaseBy) % 3]);
     setColIndex(colIndex + increaseBy);
   };
 
-  useEffect(() => {
+  const onColumnsUpdate = () => {
+    setLayout(
+      layout.map((data: any) => {
+        return {
+          ...data,
+          h: data.h,
+          w: Math.min(data.w, columns),
+        };
+      })
+    );
+  };
+
+  const onComponentUpdate = (updatedData: any, id: string) => {
+    setLayout(
+      layout.map((layout: any) => {
+        return !(id === layout.i)
+          ? layout
+          : {
+              ...layout,
+              data: {
+                ...layout.data,
+                ...updatedData,
+              },
+            };
+      })
+    );
+  };
+
+  const onLayoutInit = () => {
     let y = 0;
     setLayout(
-      !layout
-        ? Array.from({length: columns * 4}, (_, i) => i + 1).map(
-            (i: number) => {
-              if (i % columns === 0 && i !== 0) y += 1;
-              return {
-                data: {},
-                resizeHandles: ["se"],
-                i: `${i}`,
-                x: i % columns,
-                w: 1,
-                h: 1,
-                y,
-              };
-            }
-          )
-        : layout.map((data: any) => {
-            return {
-              ...data,
-              h: data.h,
-              w: Math.min(data.w, columns),
-            };
-          })
+      Array.from({length: columns * 4}, (_, i) => i + 1).map((i: number) => {
+        if (i % columns === 0 && i !== 0) y += 1;
+        return {
+          data: {
+            type: "empty",
+          },
+          resizeHandles: ["se"],
+          i: `${i}`,
+          x: i % columns,
+          w: 1,
+          h: 1,
+          y,
+        };
+      })
     );
+  };
+
+  useEffect(() => {
+    if (!layout) onLayoutInit();
+    else onColumnsUpdate();
   }, [columns]);
 
   return (
     <CreatorContext.Provider
       value={{
-        layout,
         backgroundImage,
         setBackgroundImage,
+        onComponentUpdate,
         updateColumns,
-        columns,
         setLayout,
+        columns,
+        layout,
       }}
     >
       {children}

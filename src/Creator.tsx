@@ -8,6 +8,7 @@ import {EditorContext} from "./contexts/EditorContext";
 import {CreatorContext} from "./contexts/CreatorContext";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
+import Empty from "./components/Empty";
 
 const Creator = () => {
   const {width} = useWindowDimensions();
@@ -44,7 +45,7 @@ const Creator = () => {
             layout={layout}
             cols={columns}
           >
-            {layout?.map(({i}: any) => (
+            {layout?.map(({i, data}: any) => (
               <div
                 className="border border-transparent cursor-pointer box-border relative"
                 key={i}
@@ -52,7 +53,7 @@ const Creator = () => {
                 <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg" />
                 <GridTile
                   onClick={() => deflateEditor(i)}
-                  type={i % 2 == 0 ? "text" : "image"}
+                  type={data.type}
                   id={i}
                 />
               </div>
@@ -69,9 +70,9 @@ const ChangeBackgroundImage = () => {
 
   return (
     <div className="fixed bottom-2 right-5 p-10 select-none">
-      <div className="shadow backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
-        <div className="hover:underline cursor-pointer">
-          Edit Background Image
+      <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
+        <div className="hover:underline cursor-pointer p-2">
+          Background Image
         </div>
         <div className="flex flex-row justify-between p-5 items-center">
           <ChevronLeftIcon
@@ -112,6 +113,8 @@ const GridTile = React.memo(
           return (
             <Image src="https://media.istockphoto.com/photos/young-man-arms-outstretched-by-the-sea-at-sunrise-enjoying-freedom-picture-id1285301614?s=612x612" />
           );
+        case "empty":
+          return <Empty id={id} />;
       }
     };
     return (
