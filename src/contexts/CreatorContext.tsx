@@ -25,8 +25,8 @@ const CreatorRenderer = ({children}: any) => {
   );
 
   const updateColumns = (increaseBy: number) => {
+    setColumns([3, 6, 9][Math.abs(colIndex + increaseBy) % 3]);
     setColIndex(colIndex + increaseBy);
-    setColumns([3, 6, 9][colIndex % 3]);
   };
 
   useEffect(() => {
@@ -47,7 +47,13 @@ const CreatorRenderer = ({children}: any) => {
               };
             }
           )
-        : layout
+        : layout.map((data: any) => {
+            return {
+              ...data,
+              h: data.h,
+              w: Math.min(data.w, columns),
+            };
+          })
     );
   }, [columns]);
 

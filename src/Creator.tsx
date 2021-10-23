@@ -6,6 +6,8 @@ import Text from "./components/Text";
 import Image from "./components/Image";
 import {EditorContext} from "./contexts/EditorContext";
 import {CreatorContext} from "./contexts/CreatorContext";
+import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
+import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 
 const Creator = () => {
   const {width} = useWindowDimensions();
@@ -27,7 +29,14 @@ const Creator = () => {
       <div className=" mx-auto relative" style={{width: widthResolver()}}>
         {layout && (
           <ReactGridLayout
-            onLayoutChange={(a) => setLayout(a)}
+            onLayoutChange={(a) =>
+              setLayout(
+                a.map((data, index) => ({
+                  ...layout[index],
+                  ...data,
+                }))
+              )
+            }
             rowHeight={widthResolver() / columns}
             width={widthResolver()}
             className="layout"
@@ -56,15 +65,24 @@ const Creator = () => {
 };
 
 const ChangeBackgroundImage = () => {
-  const {updateColumns} = useContext(CreatorContext);
+  const {updateColumns, columns} = useContext(CreatorContext);
 
   return (
-    <div className="fixed bottom-2 right-5 p-10 cursor-pointer">
+    <div className="fixed bottom-2 right-5 p-10 select-none">
       <div className="shadow backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
-        <div className="hover:underline">Edit Background Image</div>
-        <div className="flex flex-row justify-between p-5">
-          <div onClick={() => updateColumns(1)}> + </div>
-          <div onClick={() => updateColumns(-1)}> - </div>
+        <div className="hover:underline cursor-pointer">
+          Edit Background Image
+        </div>
+        <div className="flex flex-row justify-between p-5 items-center">
+          <ChevronLeftIcon
+            className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full"
+            onClick={() => updateColumns(-1)}
+          />
+          <div className="text-xl">{columns}</div>
+          <ChevronRightIcon
+            className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full"
+            onClick={() => updateColumns(+1)}
+          />
         </div>
       </div>
     </div>
