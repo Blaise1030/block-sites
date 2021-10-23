@@ -53,10 +53,12 @@ type TextProps = {
     | "text-4xl"
     | "text-5xl"
     | "text-6xl";
+  id: string;
 };
 
 const Text = React.memo(
   ({
+    id,
     text,
     textStyle,
     textColor = "gray",
@@ -69,21 +71,17 @@ const Text = React.memo(
   }: TextProps) => {
     const [t, setText] = useState(text);
     const [onDoubleClick, setOnDoubleClick] = useState(false);
-    const editor = useContext(EditorContext);
+    const {setEditor} = useContext(EditorContext);
 
     const inflateEditor = () => {
       setOnDoubleClick(true);
-      editor.setEditor(<TextEditor />);
-    };
-
-    const deflateEditor = () => {
-      editor.setEditor(null);
+      setEditor(<TextEditor id={id} />, id);
     };
 
     return (
       <div
+        onMouseLeave={() => setOnDoubleClick(false)}
         onDoubleClick={inflateEditor}
-        onMouseLeave={(e) => setOnDoubleClick(false)}
         className={`
             p-0.5
             flex
@@ -151,9 +149,10 @@ const Text = React.memo(
 
 export default Text;
 
-const TextEditor = () => {
+const TextEditor = ({id}: {id: string}) => {
   return (
     <div className="flex flex-col">
+      <div>{id}</div>
       <div>Font Size</div>
       <div> Color </div>
       <div> This is the text editor </div>
