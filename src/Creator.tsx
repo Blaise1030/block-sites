@@ -91,7 +91,9 @@ const Creator = () => {
 const ChangeBackgroundImage = () => {
   return (
     <div className="fixed bottom-2 right-5 p-10 cursor-pointer hover:underline">
-      Edit Background Image
+      <div className="shadow backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
+        Edit Background Image
+      </div>
     </div>
   );
 };
