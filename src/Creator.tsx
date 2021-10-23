@@ -1,7 +1,6 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions from "./helper";
-import "./grid-styles.css";
 import Text from "./components/Text";
 import Image from "./components/Image";
 import {EditorContext} from "./contexts/EditorContext";
@@ -50,12 +49,8 @@ const Creator = () => {
                 className="border border-transparent cursor-pointer box-border relative"
                 key={i}
               >
-                <div className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-gray-400 shadow-lg" />
-                <GridTile
-                  onClick={() => deflateEditor(i)}
-                  type={data.type}
-                  id={i}
-                />
+                <GridTile onClick={() => deflateEditor(i)} data={data} id={i} />
+                <div className=" absolute bottom-2 right-2 w-2 h-2 rounded-full bg-gray-800 shadow-lg" />
               </div>
             ))}
           </ReactGridLayout>
@@ -70,7 +65,7 @@ const ChangeBackgroundImage = () => {
 
   return (
     <div className="fixed bottom-2 right-5 p-10 select-none">
-      <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 p-2 rounded">
+      <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 p-2 rounded">
         <div className="hover:underline cursor-pointer p-2">
           Background Image
         </div>
@@ -91,35 +86,33 @@ const ChangeBackgroundImage = () => {
 };
 
 const GridTile = React.memo(
-  ({type, id, onClick}: {type: string; id: string; onClick: Function}) => {
-    const renderer = (type: string) => {
-      switch (type) {
+  ({id, data, onClick}: {data: any; id: string; onClick: Function}) => {
+    const renderer = () => {
+      switch (data.type) {
         case "text":
           return (
             <Text
-              textVertical="justify-center"
-              textAlignment="text-justify"
-              backgroundColor="blue"
-              backgroundOpacity="200"
-              textOpacity="600"
-              textStyle="italic"
-              textSize="text-xl"
-              textColor="green"
-              text="Hello"
               id={id}
+              text={data?.text}
+              textSize={data?.textSize}
+              textStyle={data?.textStyle}
+              textColor={data?.textColor}
+              textOpacity={data?.textOpacity}
+              textVertical={data?.textVertical}
+              textAlignment={data?.textAlignment}
+              backgroundColor={data?.backgroundColor}
+              backgroundOpacity={data?.backgroundOpacity}
             />
           );
         case "image":
-          return (
-            <Image src="https://media.istockphoto.com/photos/young-man-arms-outstretched-by-the-sea-at-sunrise-enjoying-freedom-picture-id1285301614?s=612x612" />
-          );
+          return <Image id={id} {...data} />;
         case "empty":
           return <Empty id={id} />;
       }
     };
     return (
       <div className="w-full h-full rounded" onClick={() => onClick()}>
-        {renderer(type)}
+        {renderer()}
       </div>
     );
   }
