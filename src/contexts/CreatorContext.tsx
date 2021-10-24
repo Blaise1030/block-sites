@@ -1,14 +1,15 @@
 import React, {createContext, useEffect, useState} from "react";
-import useWindowDimensions,{widthResolver} from "../helper";
+import useWindowDimensions, {widthResolver} from "../helper";
 
 type CreatorContextType = {
   columns: number;
   layout: Array<any>;
-  creatorWidth: number,
+  creatorWidth: number;
   backgroundImage?: string;
+  onAddComponent: () => void;
   setLayout: (layout: any) => void;
   updateColumns: (col: number) => void;
-  onComponentDelete: (id:string) => void;
+  onComponentDelete: (id: string) => void;
   setBackgroundImage: (img: string) => void;
   onComponentUpdate: (data: any, id: string) => void;
 };
@@ -18,24 +19,24 @@ export const CreatorContext = createContext<CreatorContextType>({
   columns: 0,
   creatorWidth: 0,
   setLayout: () => {},
+  onAddComponent: () => {},
   updateColumns: () => {},
   onComponentUpdate: () => {},
   onComponentDelete: () => {},
-  setBackgroundImage: () => {}
+  setBackgroundImage: () => {},
 });
 
 const CreatorRenderer = ({children}: any) => {
+  const {width} = useWindowDimensions();
   const [layout, setLayout] = useState<any>(null);
   const [columns, setColumns] = useState<number>(3);
   const [colIndex, setColIndex] = useState<number>(0);
-  const {width} = useWindowDimensions();
-  const [creatorWidth,_] = useState<number>(widthResolver(width))
-  const [backgroundImage, setBackgroundImage] = useState<string>(
-    ""
-  );
+  const [creatorWidth, _] = useState<number>(widthResolver(width));
+  const [largestIndex, setLargestIndex] = useState<number>(0);
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
-    setColumns([3, 6, 9][Math.abs(colIndex + increaseBy) % 3]);
+    setColumns([3, 4, 6][Math.abs(colIndex + increaseBy) % 4]);
     setColIndex(colIndex + increaseBy);
   };
 
@@ -67,18 +68,38 @@ const CreatorRenderer = ({children}: any) => {
     );
   };
 
-  const onComponentDelete = (id:string) => {
-    setLayout(layout.filter(({i}:any)=> i !== id))
-  }
+  const onComponentDelete = (id: string) => {
+    setLayout(layout.filter(({i}: any) => i !== id));
+  };
+
+  const onAddComponent = () => {
+    setLayout(
+      layout.concat({
+        data: {
+          type: "empty",
+          creatorWidth,
+        },
+        w: 1,
+        h: 1,
+        y: Infinity,
+        resizeHandles: ["se"],
+        i: `${largestIndex + 1}`,
+        x: (layout.length * 2) % columns,
+      })
+    );
+    setLargestIndex(largestIndex + 1);
+  };
 
   const onLayoutInit = () => {
     let y = 0;
     setLayout(
       Array.from({length: columns * 4}, (_, i) => i + 1).map((i: number) => {
         if (i % columns === 0 && i !== 0) y += 1;
+        setLargestIndex(i);
         return {
           data: {
             type: "empty",
+            creatorWidth,
           },
           resizeHandles: ["se"],
           i: `${i}`,
@@ -103,6 +124,7 @@ const CreatorRenderer = ({children}: any) => {
         onComponentUpdate,
         onComponentDelete,
         backgroundImage,
+        onAddComponent,
         updateColumns,
         creatorWidth,
         setLayout,
