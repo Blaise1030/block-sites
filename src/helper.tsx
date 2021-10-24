@@ -23,3 +23,6 @@ export default function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+
+export const widthResolver = (width: number) => (width <= 1024 ? width : 900);

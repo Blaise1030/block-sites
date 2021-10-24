@@ -1,27 +1,35 @@
 import React, {createContext, useEffect, useState} from "react";
+import useWindowDimensions,{widthResolver} from "../helper";
 
 type CreatorContextType = {
   columns: number;
   layout: Array<any>;
+  creatorWidth: number,
   backgroundImage?: string;
   setLayout: (layout: any) => void;
   updateColumns: (col: number) => void;
-  setBackgroundImage?: (img: string) => void;
+  onComponentDelete: (id:string) => void;
+  setBackgroundImage: (img: string) => void;
   onComponentUpdate: (data: any, id: string) => void;
 };
 
 export const CreatorContext = createContext<CreatorContextType>({
   layout: [],
   columns: 0,
+  creatorWidth: 0,
   setLayout: () => {},
   updateColumns: () => {},
   onComponentUpdate: () => {},
+  onComponentDelete: () => {},
+  setBackgroundImage: () => {}
 });
 
 const CreatorRenderer = ({children}: any) => {
   const [layout, setLayout] = useState<any>(null);
   const [columns, setColumns] = useState<number>(3);
   const [colIndex, setColIndex] = useState<number>(0);
+  const {width} = useWindowDimensions();
+  const [creatorWidth,_] = useState<number>(widthResolver(width))
   const [backgroundImage, setBackgroundImage] = useState<string>(
     ""
   );
@@ -59,6 +67,10 @@ const CreatorRenderer = ({children}: any) => {
     );
   };
 
+  const onComponentDelete = (id:string) => {
+    setLayout(layout.filter(({i}:any)=> i !== id))
+  }
+
   const onLayoutInit = () => {
     let y = 0;
     setLayout(
@@ -89,8 +101,10 @@ const CreatorRenderer = ({children}: any) => {
       value={{
         setBackgroundImage,
         onComponentUpdate,
+        onComponentDelete,
         backgroundImage,
         updateColumns,
+        creatorWidth,
         setLayout,
         columns,
         layout,

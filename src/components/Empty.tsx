@@ -19,7 +19,7 @@ const Empty = ({id}: {id: string}) => {
 
 const EmptyEditor = ({id}: {id: string}) => {
   const {deflateEditor} = useContext(EditorContext);
-  const {onComponentUpdate} = useContext(CreatorContext);
+  const {onComponentUpdate,onComponentDelete} = useContext(CreatorContext);
   const dropdownData = [
     {
       label: "Text",
@@ -66,9 +66,17 @@ const EmptyEditor = ({id}: {id: string}) => {
   };
 
   return (
-    <div className="flex flex-col w-50 p-1">
-      <div className="font-bold">Pick a component</div>
+    <div className="flex flex-col w-50 p-2">
+      <div className="font-bold underline">Pick a component</div>
       <div className="pt-2">{dropdownComponent()}</div>
+      <div
+      onClick={()=>{
+        deflateEditor(null)
+        onComponentDelete(id)
+      }}
+      className="mt-4 rounded cursor-pointer p-2 text-center border border-red-500 text-red-500 hover:bg-red-500 font-bold hover:text-white">
+        Delete
+      </div>
     </div>
   );
 };
