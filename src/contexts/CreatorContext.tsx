@@ -23,7 +23,7 @@ const CreatorRenderer = ({children}: any) => {
   const [columns, setColumns] = useState<number>(3);
   const [colIndex, setColIndex] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>(
-    "https://images.unsplash.com/photo-1504006833117-8886a355efbf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
+    ""
   );
 
   const updateColumns = (increaseBy: number) => {

@@ -1,9 +1,10 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import {EditorContext} from "../contexts/EditorContext";
-import {ChromePicker} from "react-color";
+import { EditorContext } from "../contexts/EditorContext";
+import { ChromePicker } from "react-color";
 import Slider from "rc-slider";
-import {CreatorContext} from "../contexts/CreatorContext";
+import { CreatorContext } from "../contexts/CreatorContext";
+import RGBAToHexA from "../helper/rgbaHexConverter"
 
 type TextProps = {
   id: string;
@@ -11,8 +12,7 @@ type TextProps = {
   textSize: number;
   textColor?: string;
   backgroundColor?: string;
-  textWeight?: "font-bold";
-  textStyle?: "italic" | "underline" | "line-through";
+  textStyle?: "italic" | "underline" | "line-through" | "font-bold";
   textVertical?: "justify-top" | "justify-center" | "justify-end";
   textAlignment?: "text-justify" | "text-center" | "text-left" | "text-right";
 };
@@ -30,7 +30,7 @@ const Text = React.memo(
   }: TextProps) => {
     const [t, setText] = useState(text);
     const [onDoubleClick, setOnDoubleClick] = useState(false);
-    const {setEditor} = useContext(EditorContext);
+    const { setEditor } = useContext(EditorContext);
 
     const inflateEditor = () => {
       setOnDoubleClick(true);
@@ -52,10 +52,10 @@ const Text = React.memo(
             flex
             w-full
             h-full
-            flex-col                        
+            flex-col
             ${textStyle}
             ${textVertical}
-            ${textAlignment}                                    
+            ${textAlignment}
         `}
       >
         {!onDoubleClick && (
@@ -68,8 +68,9 @@ const Text = React.memo(
             ${textStyle}
             outline-none
             bg-transparent
-            overflow-y-hidden            
-            ${textAlignment}                        
+            overflow-y-hidden
+            whitespace-pre-line
+            ${textAlignment}
           `}
           >
             {t || "Add Text"}
@@ -87,7 +88,7 @@ const Text = React.memo(
             outline-none
             bg-transparent
             overflow-y-hidden
-            ${textAlignment}                        
+            ${textAlignment}
           `}
             autoFocus
             value={t}
@@ -102,107 +103,158 @@ const Text = React.memo(
 
 export default Text;
 
-const TextEditor = ({id}: {id: string}) => {
-  const {layout, onComponentUpdate} = useContext(CreatorContext);
-  const {textColor, backgroundColor, textSize, textAlignment, textVertical} =
-    layout.find(({i}) => i === id).data as any;
+const TextEditor = ({ id }: { id: string }) => {
+  const { layout, onComponentUpdate } = useContext(CreatorContext);
+  const { textColor, backgroundColor, textSize, textAlignment, textVertical, textStyle} =
+    layout.find(({ i }) => i === id).data as any;
   const [txtSize, setTextSize] = useState(textSize);
   const [txtColor, setTextColor] = useState(textColor);
   const [txtVertical, setTxtVertical] = useState(textVertical);
   const [bgColor, setBackgroundColor] = useState(backgroundColor);
   const [txtAlignment, setTxtAlignment] = useState(textAlignment);
+  const [txtFormat,setTxtFormat] = useState(textStyle)
+
+  const textAlignmentData = [
+    {
+      icon: 'format_align_left',
+      newAlignement: "text-left"
+    },
+    {
+      icon: 'format_align_center',
+      newAlignement: "text-center"
+    },
+    {
+      icon: 'format_align_right',
+      newAlignement: "text-right"
+    },
+    {
+      icon: 'format_align_justify',
+      newAlignement: "text-justify"
+    }
+  ]
+
+  const textVerticalData = [
+    {
+      icon: 'vertical_align_bottom',
+      newAlignement: "justify-end"
+    },
+    {
+      icon: 'vertical_align_center',
+      newAlignement: "justify-center"
+    },
+    {
+      icon: 'vertical_align_top',
+      newAlignement: "justify-top"
+    },
+  ]
+
+  const textFormatterData = [
+    {
+      icon: 'format_underlined',
+      newAlignement: "underline"
+    },
+    {
+      icon: 'strikethrough_s',
+      newAlignement: "line-through"
+    },
+    {
+      icon: 'format_bold',
+      newAlignement: "font-bold"
+    },
+    {
+      icon: 'format_italic',
+      newAlignement: "italic"
+    },
+  ]
 
   const updateTextColor = (textColor: string) => {
     setTextColor(textColor);
-    onComponentUpdate({textColor}, id);
+    onComponentUpdate({ textColor }, id);
   };
 
   const updateBgColor = (backgroundColor: string) => {
     setBackgroundColor(backgroundColor);
-    onComponentUpdate({backgroundColor}, id);
+    onComponentUpdate({ backgroundColor }, id);
   };
 
   const updateTextSize = (textSize: number) => {
     setTextSize(textSize);
-    onComponentUpdate({textSize}, id);
+    onComponentUpdate({ textSize }, id);
   };
 
   const updateHAlignment = (alignment: string) => {
-    setTxtAlignment(alignment);
-    onComponentUpdate({textAlignment: alignment}, id);
+    if (txtAlignment !== alignment){
+      setTxtAlignment(alignment);
+      onComponentUpdate({ textAlignment: alignment }, id);
+    }
   };
 
   const updateVAlignment = (alignment: string) => {
-    setTxtVertical(alignment);
-    onComponentUpdate({textVertical: alignment}, id);
+    if (txtVertical !== alignment){
+      setTxtVertical(alignment);
+      onComponentUpdate({ textVertical: alignment }, id);
+    }
+  };
+
+  const updateTextFormatter = (newFormat: string) => {
+    if (txtFormat === newFormat)
+      newFormat = ""
+    setTxtFormat(newFormat);
+    onComponentUpdate({ textStyle: newFormat }, id);
   };
 
   return (
-    <div className="flex flex-col p-2">
+    <div className="flex flex-col p-2 drop-shadow select-none">
       <div>
-        <div className="font-bold pt-0.5">Text Color</div>
+        <div className="font-bold pt-0.5 underline">Text Color</div>
         <ChromePicker
           className="mx-auto mt-3"
-          onChange={(e) => updateTextColor(e.hex)}
+          onChange={(e) => updateTextColor(RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb ?.a || 1))}
           color={txtColor}
         />
-        <div className="font-bold pt-2">Size</div>
+        <div className="font-bold pt-3 underline">Size</div>
         <Slider value={txtSize} onChange={updateTextSize} />
-        <div className="flex flex-row justify-between pt-3">
-          <div className="flex flex-row select-none">
-            <span
-              onClick={() => updateHAlignment("text-left")}
+        <div className="font-bold pt-3 underline">Text Styles</div>
+        <div className="p-1">
+          <div className="flex flex-row select-none w-full justify-evenly p-1">
+            {textVerticalData.map(({ icon, newAlignement }) => (<span
+              key={icon}
+              onClick={() => updateVAlignment(newAlignement)}
               className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
             >
-              format_align_left
-            </span>
-            <span
-              onClick={() => updateHAlignment("text-center")}
-              className="material-icons p-2 cursor-pointer hover:shadow-md  border rounded mr-1"
-            >
-              format_align_center
-            </span>
-            <span
-              onClick={() => updateHAlignment("text-right")}
-              className="material-icons p-2 cursor-pointer hover:shadow-md  border rounded mr-1"
-            >
-              format_align_right
-            </span>
-            <span
-              onClick={() => updateHAlignment("text-justify")}
-              className="material-icons p-2 cursor-pointer hover:shadow-md  border rounded mr-1"
-            >
-              format_align_justify
-            </span>
+              {icon}
+            </span>)
+            )}
           </div>
-
-          <div className="flex flex-row select-none">
-            <span
-              onClick={() => updateVAlignment("justify-end")}
+          <div className="flex flex-row select-none w-full justify-evenly p-2">
+            {textAlignmentData.map(({ icon, newAlignement }) => (<span
               className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
+              onClick={() => updateHAlignment(newAlignement)}
+              key={icon}
             >
-              vertical_align_bottom
-            </span>
-            <span
-              onClick={() => updateVAlignment("justify-center")}
-              className="material-icons p-2 cursor-pointer hover:shadow-md  border rounded mr-1"
+              {icon}
+            </span>)
+            )}
+          </div>
+          <div className="flex flex-row select-none w-full justify-evenly p-1">
+            {textFormatterData.map(({ icon, newAlignement }) => (<span
+              className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
+              onClick={() => updateTextFormatter(newAlignement)}
+              key={icon}
             >
-              vertical_align_center
-            </span>
-            <span
-              onClick={() => updateVAlignment("justify-top")}
-              className="material-icons p-2 cursor-pointer hover:shadow-md  border rounded mr-1"
-            >
-              vertical_align_top
-            </span>
+              {icon}
+            </span>)
+            )}
           </div>
         </div>
+
       </div>
       <div className="py-2">
-        <div className="font-bold pt-0.5">Background</div>
+        <div className="font-bold pt-0.5 underline">Background</div>
         <ChromePicker
+          onChange={(e) => updateBgColor(RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb ?.a || 1))}
           className="mx-auto mt-3"
-          onChange={(e) => updateBgColor(e.hex)}
+          disableAlpha={false}
           color={bgColor}
         />
       </div>

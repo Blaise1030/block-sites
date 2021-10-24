@@ -97,11 +97,9 @@ const GridTile = React.memo(
               textSize={data?.textSize}
               textStyle={data?.textStyle}
               textColor={data?.textColor}
-              textOpacity={data?.textOpacity}
               textVertical={data?.textVertical}
               textAlignment={data?.textAlignment}
               backgroundColor={data?.backgroundColor}
-              backgroundOpacity={data?.backgroundOpacity}
             />
           );
         case "image":
