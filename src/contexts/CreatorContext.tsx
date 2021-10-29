@@ -7,6 +7,7 @@ type CreatorContextType = {
   creatorWidth: number;
   backgroundImage?: string;
   onAddComponent: () => void;
+  packageSiteInfo: () => void;
   setLayout: (layout: any) => void;
   updateColumns: (col: number) => void;
   onComponentDelete: (id: string) => void;
@@ -19,8 +20,9 @@ export const CreatorContext = createContext<CreatorContextType>({
   columns: 0,
   creatorWidth: 0,
   setLayout: () => {},
-  onAddComponent: () => {},
   updateColumns: () => {},
+  onAddComponent: () => {},
+  packageSiteInfo: () => {},
   onComponentUpdate: () => {},
   onComponentDelete: () => {},
   setBackgroundImage: () => {},
@@ -36,8 +38,19 @@ const CreatorRenderer = ({children}: any) => {
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
-    setColumns([3, 4, 6][Math.abs(colIndex + increaseBy) % 4]);
+    setColumns([3, 4, 5, 6][Math.abs(colIndex + increaseBy) % 4]);
     setColIndex(colIndex + increaseBy);
+  };
+
+  const packageSiteInfo = () => {
+    return {
+      backgroundImage,
+      largestIndex,
+      creatorWidth,
+      colIndex,
+      columns,
+      layout,
+    };
   };
 
   const onColumnsUpdate = () => {
@@ -124,6 +137,7 @@ const CreatorRenderer = ({children}: any) => {
         onComponentUpdate,
         onComponentDelete,
         backgroundImage,
+        packageSiteInfo,
         onAddComponent,
         updateColumns,
         creatorWidth,

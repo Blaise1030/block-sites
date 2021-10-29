@@ -10,12 +10,19 @@ import Slider from "rc-slider";
 type ImageProps = {
   backgroundColor?: string;
   borderRadius?: number;
+  padding?: number;
   src?: string;
   link: string;
   id: string;
 };
 
-const Image = ({src, id, borderRadius, backgroundColor}: ImageProps) => {
+const Image = ({
+  src,
+  id,
+  borderRadius,
+  backgroundColor,
+  padding,
+}: ImageProps) => {
   const {setEditor} = useContext(EditorContext);
 
   const inflateEditor = () => {
@@ -24,7 +31,7 @@ const Image = ({src, id, borderRadius, backgroundColor}: ImageProps) => {
 
   return (
     <div
-      style={{backgroundColor: backgroundColor}}
+      style={{backgroundColor: backgroundColor, padding: `${padding}rem`}}
       className="w-full h-full border-4"
       onDoubleClick={() => inflateEditor()}
     >
@@ -50,11 +57,18 @@ const ImageEditor = ({id}: {id: string}) => {
   const {deflateEditor} = useContext(EditorContext);
   const {layout, onComponentUpdate, onComponentDelete} =
     useContext(CreatorContext);
-  const {src, borderRadius, backgroundColor, link} = layout.find(
+  const {src, borderRadius, backgroundColor, link, padding} = layout.find(
     ({i}) => i === id
-  )?.data || {link: null, src: null, borderRadius: null, backgroundColor: null};
+  )?.data || {
+    link: null,
+    src: null,
+    borderRadius: null,
+    backgroundColor: null,
+    padding: null,
+  };
   const [brdRadius, setBorderRadius] = useState<number>(borderRadius);
   const [bgColor, setBackgroundColor] = useState(backgroundColor);
+  const [pad, setPadding] = useState(padding);
   const [lnk, setLink] = useState(link || "");
   const [file, setFile] = useState<any>(src);
 
@@ -83,6 +97,16 @@ const ImageEditor = ({id}: {id: string}) => {
     onComponentUpdate(
       {
         backgroundColor: newColor,
+      },
+      id
+    );
+  };
+
+  const updatePadding = (padding: number) => {
+    setPadding(padding);
+    onComponentUpdate(
+      {
+        padding,
       },
       id
     );
@@ -128,9 +152,13 @@ const ImageEditor = ({id}: {id: string}) => {
         <Slider
           value={brdRadius}
           min={0}
-          max={100}
+          max={15}
           onChange={updateBorderRadius}
         />
+      </div>
+      <div className="flex flex-col py-3">
+        <div className="font-bold">Padding</div>
+        <Slider value={pad} min={0} max={5} onChange={updatePadding} />
       </div>
       <div className="py-2">
         <div className="font-bold pt-0.5">Background</div>

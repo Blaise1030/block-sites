@@ -1,13 +1,14 @@
-import React, {useContext} from "react";
 import ReactGridLayout from "react-grid-layout";
+import React, {useContext} from "react";
+import {useHistory} from "react-router-dom";
 import {CreatorContext} from "../contexts/CreatorContext";
 import useWindowDimensions, {widthResolver} from "../helper";
+import ArrowLeftIcon from "@heroicons/react/solid/ArrowLeftIcon";
 
 const Previewer = () => {
-  const {columns, backgroundImage, layout, setLayout} =
-    useContext(CreatorContext);
-  const {width} = useWindowDimensions();
-  const widthResolver = () => (width <= 1024 ? width : 900);
+  const history = useHistory();
+  const {packageSiteInfo, creatorWidth} = useContext(CreatorContext);
+  const {columns, backgroundImage, layout} = packageSiteInfo() as any;
 
   return (
     <div
@@ -18,11 +19,30 @@ const Previewer = () => {
         backgroundSize: "cover",
       }}
     >
-      <div className=" mx-auto relative" style={{width: widthResolver()}}>
+      <div
+        onClick={() => history.goBack()}
+        className="      
+        backdrop-blur-lg     
+        hover:shadow-lg                       
+        backdrop-filter cursor-pointer
+        bg-opacity-30 
+        rounded-full
+        bg-white                    
+        left-3        
+        fixed
+        top-3                     
+        h-10 
+        z-20
+        w-10                                                                      
+        p-2"
+      >
+        <ArrowLeftIcon />
+      </div>
+      <div className=" mx-auto relative pt-10" style={{width: creatorWidth}}>
         {layout && (
           <ReactGridLayout
-            rowHeight={widthResolver() / columns}
-            width={widthResolver()}
+            rowHeight={creatorWidth / columns}
+            width={creatorWidth}
             isResizable={false}
             isDraggable={false}
             className="layout"
@@ -59,11 +79,21 @@ const DisplayTile = React.memo(({id, data}: {data: any; id: string}) => {
   return <div className="w-full h-full rounded">{renderer()}</div>;
 });
 
-const DisplayImage = ({src, id, borderRadius, backgroundColor, link}: any) => {
+const DisplayImage = ({
+  id,
+  src,
+  link,
+  padding,
+  borderRadius,
+  backgroundColor,
+}: any) => {
   const onClickLink = () => (link ? window.open(link, "_blank") : "");
 
   return (
-    <div style={{backgroundColor: backgroundColor}} className="w-full h-full">
+    <div
+      style={{backgroundColor: backgroundColor, padding: `${padding}rem`}}
+      className="w-full h-full"
+    >
       <img
         id={id}
         alt="img"

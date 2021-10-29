@@ -13,15 +13,13 @@ import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import {Link} from "react-router-dom";
 
 const Creator = () => {
-  const {width} = useWindowDimensions();
   const {deflateEditor} = useContext(EditorContext);
-  const {columns, backgroundImage, layout, setLayout} =
+  const {columns, backgroundImage, layout, setLayout, creatorWidth} =
     useContext(CreatorContext);
-  const widthResolver = () => (width <= 1024 ? width : 900);
 
   return (
     <div
-      className="flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative"
+      className=" flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative pt-10"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: "no-repeat",
@@ -29,11 +27,11 @@ const Creator = () => {
       }}
     >
       <ChangeBackgroundImage />
-      <div className=" mx-auto relative" style={{width: widthResolver()}}>
+      <div className=" mx-auto relative border" style={{width: creatorWidth}}>
         {layout && (
           <ReactGridLayout
-            rowHeight={widthResolver() / columns}
-            width={widthResolver()}
+            rowHeight={creatorWidth / columns}
+            width={creatorWidth}
             className="layout"
             margin={[0, 0]}
             layout={layout}
@@ -85,11 +83,11 @@ const GridTile = React.memo(
 
 const ChangeBackgroundImage = () => {
   const {
-    updateColumns,
     columns,
-    setBackgroundImage,
-    backgroundImage,
+    updateColumns,
     onAddComponent,
+    backgroundImage,
+    setBackgroundImage,
   } = useContext(CreatorContext);
 
   const uploadFiles = (file: File) => {
@@ -98,9 +96,9 @@ const ChangeBackgroundImage = () => {
   };
 
   return (
-    <div className="fixed bottom-2 right-5 p-10 select-none">
+    <div className="fixed bottom-2 right-5 p-10 select-none ">
       <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 rounded p-5">
-        <Link className="hover:underline" to="preview">
+        <Link className="hover:underline" to="/create/preview">
           See Preview
         </Link>
         <Dropzone onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}>
