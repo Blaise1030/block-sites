@@ -363,7 +363,7 @@ const TextEditor = ({id}: {id: string}) => {
             <div className="p-2">
               <div className="font-bold mt-3">Link</div>
               <input
-                className="w-full outline-none border-b-2 mb-2 bg-transparent"
+                className="w-full outline-none border-b-2 my-2 bg-transparent"
                 onChange={(e) => updateLink(e.target.value)}
                 placeholder="Add Link"
                 value={lnk}

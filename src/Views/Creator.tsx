@@ -10,6 +10,7 @@ import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import {Link} from "react-router-dom";
+import {Disclosure} from "@headlessui/react";
 
 const Creator = () => {
   const {deflateEditor} = useContext(EditorContext);
@@ -98,54 +99,69 @@ const ChangeBackgroundImage = () => {
   };
 
   return (
-    <div className="fixed bottom-2 right-5 p-10 select-none ">
-      <div className="shadow-md border bg-white border-black rounded p-5">
+    <div className="fixed bottom-5 right-5 select-none w-300">
+      <div className="shadow-md border bg-white border-black rounded pl-5 pr-5 pb-5 pt-2">
+        <Disclosure>
+          {({open}) => (
+            <>
+              <Disclosure.Panel className="text-gray-500">
+                <Dropzone
+                  onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}
+                >
+                  {({getRootProps, getInputProps}) => (
+                    <div className="m-auto">
+                      <div className=" font-bold pb-5 mt-3">
+                        Background Image
+                      </div>
+                      <div className="flex flex-col w-full">
+                        <div className="m-auto w-20 h-20 border-2 border-dashed rounded flex flex-col items-center justify-center cursor-pointer object-cover">
+                          <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            {!backgroundImage && (
+                              <PhotographIcon className="w-auto h-12 text-gray-300" />
+                            )}
+                            {backgroundImage && (
+                              <img
+                                src={backgroundImage}
+                                className="w-20 h-20 object-cover rounded"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+                <div className="flex flex-row justify-between p-5 items-center">
+                  <ChevronLeftIcon
+                    className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full border border-black"
+                    onClick={() => updateColumns(-1)}
+                  />
+                  <div className="text-xl">{columns}</div>
+                  <ChevronRightIcon
+                    className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full border border-black"
+                    onClick={() => updateColumns(+1)}
+                  />
+                </div>
+                <div
+                  className="rounded cursor-pointer p-2 text-center border border-green-500 text-green-500 hover:bg-green-500 font-bold hover:text-white"
+                  onClick={onAddComponent}
+                >
+                  Add Tile
+                </div>
+              </Disclosure.Panel>
+              <Disclosure.Button className="w-full my-3 hover:bg-blue-200 bg-blue-100 p-2 rounded">
+                {open ? "Hide Settings" : "Settings"}
+              </Disclosure.Button>
+            </>
+          )}
+        </Disclosure>
         <Link className="shadow-md" to="/create/preview">
-          <div className="bg-blue-500 text-white font-semibold py-1 px-2 rounded w-full flex flex-row items-center justify-center">
+          <div className="bg-blue-500 text-white font-semibold py-2 px-1 rounded w-full flex flex-row items-center justify-center">
             <div>Next</div>
             <ChevronRightIcon className="w-5 h-5 mt-0.5 shadow" />
           </div>
         </Link>
-        <Dropzone onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}>
-          {({getRootProps, getInputProps}) => (
-            <div className="m-auto">
-              <div className=" font-bold py-2">Background Image</div>
-              <div className="flex flex-col w-full">
-                <div className="m-auto w-20 h-20 border-2 border-dashed rounded flex flex-col items-center justify-center cursor-pointer object-cover">
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    {!backgroundImage && (
-                      <PhotographIcon className="w-auto h-12 text-gray-300" />
-                    )}
-                    {backgroundImage && (
-                      <img
-                        src={backgroundImage}
-                        className="w-20 h-20 object-cover rounded"
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </Dropzone>
-        <div className="flex flex-row justify-between p-5 items-center">
-          <ChevronLeftIcon
-            className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full"
-            onClick={() => updateColumns(-1)}
-          />
-          <div className="text-xl">{columns}</div>
-          <ChevronRightIcon
-            className="h-8 w-8 cursor-pointer hover:shadow-lg rounded-full"
-            onClick={() => updateColumns(+1)}
-          />
-        </div>
-        <div
-          onClick={() => onAddComponent()}
-          className="rounded cursor-pointer p-2 text-center border border-green-500 text-green-500 hover:bg-green-500 font-bold hover:text-white"
-        >
-          Add Tile
-        </div>
       </div>
     </div>
   );
