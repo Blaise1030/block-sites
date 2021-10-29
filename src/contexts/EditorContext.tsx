@@ -35,7 +35,7 @@ const EditorRenderer = ({children}: any) => {
   return (
     <EditorContext.Provider value={{setEditor, componentId, deflateEditor}}>
       <div className="h-full w-full relative">
-        <div className="z-20 absolute left-0 h-full p-2 flex flex-row justify-center items-center ">
+        <div className="z-20 absolute left-10 bottom-10">
           <Transition
             show={showSideBar}
             enter="transform transition ease-linear duration-100"
@@ -45,7 +45,7 @@ const EditorRenderer = ({children}: any) => {
             leaveFrom="-translate-x-10"
             leaveTo="-translate-x-full"
           >
-            <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 p-2 rounded overflow-x-hidden">
+            <div className="shadow-lg border-2 border-black bg-white p-2 rounded overflow-x-hidden">
               {editorComponent}
             </div>
           </Transition>

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
 import {CreatorContext} from "../contexts/CreatorContext";
 import {EditorContext} from "../contexts/EditorContext";
@@ -8,6 +8,7 @@ import useWindowDimensions, {widthResolver} from "../helper";
 import {ChromePicker} from "react-color";
 import Dropzone from "react-dropzone";
 import Slider from "rc-slider";
+import {Tab} from "@headlessui/react";
 
 type TextProps = {
   id: string;
@@ -262,106 +263,141 @@ const TextEditor = ({id}: {id: string}) => {
 
   return (
     <div className="flex flex-col p-2 drop-shadow select-none">
-      <div>
-        <div className="font-bold pt-0.5">Text Color</div>
-        <ChromePicker
-          className="mx-auto mt-3"
-          onChange={(e) =>
-            updateTextColor(
-              RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1)
-            )
-          }
-          color={txtColor}
-        />
-        <div className="font-bold pt-3 ">Size</div>
-        <Slider value={txtSize} onChange={updateTextSize} />
-        <div className="font-bold pt-3 ">Text Styles</div>
-        <div className="p-1">
-          <div className="flex flex-row select-none w-full justify-evenly p-1">
-            {textVerticalData.map(({icon, newAlignement}) => (
-              <span
-                key={icon}
-                onClick={() => updateVAlignment(newAlignement)}
-                className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
-              >
-                {icon}
-              </span>
-            ))}
-          </div>
-          <div className="flex flex-row select-none w-full justify-evenly p-2">
-            {textAlignmentData.map(({icon, newAlignement}) => (
-              <span
-                className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
-                onClick={() => updateHAlignment(newAlignement)}
-                key={icon}
-              >
-                {icon}
-              </span>
-            ))}
-          </div>
-          <div className="flex flex-row select-none w-full justify-evenly p-1">
-            {textFormatterData.map(({icon, newAlignement}) => (
-              <span
-                className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
-                onClick={() => updateTextFormatter(newAlignement)}
-                key={icon}
-              >
-                {icon}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="py-2">
-        <div className="font-bold pt-0.5 ">Background</div>
-        <ChromePicker
-          onChange={(e) =>
-            updateBgColor(RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1))
-          }
-          className="mx-auto mt-3"
-          disableAlpha={false}
-          color={bgColor}
-        />
-        <div className="font-bold mt-3">Link</div>
-        <input
-          className="w-full outline-none border-b-2 mb-2 bg-transparent"
-          placeholder="Add Link"
-          value={lnk}
-          onChange={(e) => updateLink(e.target.value)}
-        />
-        <Dropzone onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}>
-          {({getRootProps, getInputProps}) => (
-            <div className="m-auto">
-              <div className=" font-bold py-2">Image</div>
-              <div className="flex flex-col w-full">
-                <div className="m-auto w-20 h-20 border-4 border-dashed rounded flex flex-col items-center justify-center cursor-pointer object-cover">
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    {!src && (
-                      <PhotographIcon className="w-12 h-12 text-gray-300" />
-                    )}
-                    {src && (
-                      <img
-                        src={file}
-                        className="w-20 h-20 object-cover rounded"
-                      />
-                    )}
-                  </div>
+      <Tab.Group>
+        <Tab.Panels>
+          <Tab.Panel>
+            <div className="p-2">
+              <div className="font-bold pt-0.5">Text Color</div>
+              <ChromePicker
+                className="mx-auto my-5"
+                onChange={(e) =>
+                  updateTextColor(
+                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1)
+                  )
+                }
+                color={txtColor}
+              />
+              <div className="my-5">
+                <div className="font-bold py-3">Size</div>
+                <Slider value={txtSize} onChange={updateTextSize} />
+              </div>
+
+              <div className="p-1">
+                <div className="flex flex-row select-none w-full justify-evenly p-1">
+                  {textVerticalData.map(({icon, newAlignement}) => (
+                    <span
+                      key={icon}
+                      onClick={() => updateVAlignment(newAlignement)}
+                      className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
+                    >
+                      {icon}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-row select-none w-full justify-evenly p-2">
+                  {textAlignmentData.map(({icon, newAlignement}) => (
+                    <span
+                      className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
+                      onClick={() => updateHAlignment(newAlignement)}
+                      key={icon}
+                    >
+                      {icon}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-row select-none w-full justify-evenly p-1">
+                  {textFormatterData.map(({icon, newAlignement}) => (
+                    <span
+                      className="material-icons p-2 cursor-pointer hover:shadow-md border rounded mr-1"
+                      onClick={() => updateTextFormatter(newAlignement)}
+                      key={icon}
+                    >
+                      {icon}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
-          )}
-        </Dropzone>
-      </div>
-      <div
-        onClick={() => {
-          deflateEditor(null);
-          onComponentDelete(id);
-        }}
-        className="mt-1 rounded cursor-pointer p-2 text-center border border-red-500 text-red-500 hover:bg-red-500 font-bold hover:text-white"
-      >
-        Delete
-      </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="p-2">
+              <div className="font-bold pt-0.5">Background</div>
+              <ChromePicker
+                onChange={(e) =>
+                  updateBgColor(
+                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1)
+                  )
+                }
+                className="mx-auto my-5"
+                disableAlpha={false}
+                color={bgColor}
+              />
+              <Dropzone
+                onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}
+              >
+                {({getRootProps, getInputProps}) => (
+                  <div className="m-auto">
+                    <div className=" font-bold my-5">Image</div>
+                    <div className="flex flex-col w-full">
+                      <div className="m-auto w-20 h-20 border-4 border-dashed rounded flex flex-col items-center justify-center cursor-pointer object-cover">
+                        <div {...getRootProps()}>
+                          <input {...getInputProps()} />
+                          {!src && (
+                            <PhotographIcon className="w-12 h-12 text-gray-300" />
+                          )}
+                          {src && (
+                            <img
+                              src={file}
+                              className="w-20 h-20 object-cover rounded"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Dropzone>
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="p-2">
+              <div className="font-bold mt-3">Link</div>
+              <input
+                className="w-full outline-none border-b-2 mb-2 bg-transparent"
+                onChange={(e) => updateLink(e.target.value)}
+                placeholder="Add Link"
+                value={lnk}
+              />
+              <div
+                onClick={() => {
+                  deflateEditor(null);
+                  onComponentDelete(id);
+                }}
+                className="mt-1 rounded cursor-pointer p-2 text-center border border-red-500 text-red-500 hover:bg-red-500 font-bold hover:text-white"
+              >
+                Delete
+              </div>
+            </div>
+          </Tab.Panel>
+        </Tab.Panels>
+        <Tab.List className="grid grid-cols-3 mt-5">
+          {["Text", "Background", "Actions"].map((label: string) => (
+            <Tab as={Fragment} key={label}>
+              {({selected}) => (
+                <button
+                  className={`${
+                    selected
+                      ? "bg-blue-500 text-white rounded shadow"
+                      : "bg-white text-black"
+                  } py-1 px-2`}
+                >
+                  {label}
+                </button>
+              )}
+            </Tab>
+          ))}
+        </Tab.List>
+      </Tab.Group>
     </div>
   );
 };

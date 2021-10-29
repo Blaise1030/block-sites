@@ -3,7 +3,6 @@ import Dropzone from "react-dropzone";
 import Text from "../components/Text";
 import Image from "../components/Image";
 import Empty from "../components/Empty";
-import useWindowDimensions from "../helper";
 import ReactGridLayout from "react-grid-layout";
 import {EditorContext} from "../contexts/EditorContext";
 import {CreatorContext} from "../contexts/CreatorContext";
@@ -19,7 +18,7 @@ const Creator = () => {
 
   return (
     <div
-      className=" flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative pt-10"
+      className="bg-white flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative pt-10"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: "no-repeat",
@@ -27,7 +26,10 @@ const Creator = () => {
       }}
     >
       <ChangeBackgroundImage />
-      <div className=" mx-auto relative border" style={{width: creatorWidth}}>
+      <div
+        className="mx-auto relative border rounded"
+        style={{width: creatorWidth}}
+      >
         {layout && (
           <ReactGridLayout
             rowHeight={creatorWidth / columns}
@@ -97,9 +99,12 @@ const ChangeBackgroundImage = () => {
 
   return (
     <div className="fixed bottom-2 right-5 p-10 select-none ">
-      <div className="shadow-lg border backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 rounded p-5">
-        <Link className="hover:underline" to="/create/preview">
-          See Preview
+      <div className="shadow-md border bg-white border-black rounded p-5">
+        <Link className="shadow-md" to="/create/preview">
+          <div className="bg-blue-500 text-white font-semibold py-1 px-2 rounded w-full flex flex-row items-center justify-center">
+            <div>Next</div>
+            <ChevronRightIcon className="w-5 h-5 mt-0.5 shadow" />
+          </div>
         </Link>
         <Dropzone onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}>
           {({getRootProps, getInputProps}) => (

@@ -55,14 +55,15 @@ const CreateRoutes = () => {
   return (
     <CreatorRenderer>
       <Switch>
-        <Route path={`${match.url}/preview`}>
-          <Previewer />
-        </Route>
-        <Route path={`${match.url}/`}>
-          <EditorRenderer>
-            <Creator />
-          </EditorRenderer>
-        </Route>
+        <Route path={`${match.url}/preview`} component={Previewer} />
+        <Route
+          path={`${match.url}/`}
+          children={
+            <EditorRenderer>
+              <Creator />
+            </EditorRenderer>
+          }
+        />
       </Switch>
     </CreatorRenderer>
   );

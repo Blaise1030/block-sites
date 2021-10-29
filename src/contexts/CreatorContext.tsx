@@ -31,14 +31,14 @@ export const CreatorContext = createContext<CreatorContextType>({
 const CreatorRenderer = ({children}: any) => {
   const {width} = useWindowDimensions();
   const [layout, setLayout] = useState<any>(null);
-  const [columns, setColumns] = useState<number>(3);
+  const [columns, setColumns] = useState<number>(4);
   const [colIndex, setColIndex] = useState<number>(0);
   const [creatorWidth, _] = useState<number>(widthResolver(width));
   const [largestIndex, setLargestIndex] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
-    setColumns([3, 4, 5, 6][Math.abs(colIndex + increaseBy) % 4]);
+    setColumns([4, 5, 6, 3][Math.abs(colIndex + increaseBy) % 4]);
     setColIndex(colIndex + increaseBy);
   };
 
@@ -106,22 +106,24 @@ const CreatorRenderer = ({children}: any) => {
   const onLayoutInit = () => {
     let y = 0;
     setLayout(
-      Array.from({length: columns * 4}, (_, i) => i + 1).map((i: number) => {
-        if (i % columns === 0 && i !== 0) y += 1;
-        setLargestIndex(i);
-        return {
-          data: {
-            type: "empty",
-            creatorWidth,
-          },
-          resizeHandles: ["se"],
-          i: `${i}`,
-          x: i % columns,
-          w: 1,
-          h: 1,
-          y,
-        };
-      })
+      Array.from({length: columns * columns}, (_, i) => i + 1).map(
+        (i: number) => {
+          if (i % columns === 0 && i !== 0) y += 1;
+          setLargestIndex(i);
+          return {
+            data: {
+              type: "empty",
+              creatorWidth,
+            },
+            resizeHandles: ["se"],
+            i: `${i}`,
+            x: i % columns,
+            w: 1,
+            h: 1,
+            y,
+          };
+        }
+      )
     );
   };
 
