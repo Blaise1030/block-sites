@@ -27,6 +27,7 @@ const EmptyEditor = ({id}: {id: string}) => {
         onComponentUpdate(
           {
             type: "text",
+            padding: 1,
             textSize: 20,
             textColor: "black",
             backgroundColor: "white",

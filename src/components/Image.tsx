@@ -33,7 +33,7 @@ const Image = ({
   return (
     <div
       style={{backgroundColor: backgroundColor, padding: `${padding}rem`}}
-      className="w-full h-full border-4"
+      className="w-full h-full border-4 box-border"
       onDoubleClick={() => inflateEditor()}
     >
       {src && (

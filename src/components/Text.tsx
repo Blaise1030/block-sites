@@ -74,6 +74,7 @@ const Text = React.memo(
             w-full
             h-full
             flex-col
+            border-box
             ${textStyle}
             ${textVertical}
             ${textAlignment}
@@ -283,7 +284,7 @@ const TextEditor = ({id}: {id: string}) => {
               </div>
               <div className="my-5">
                 <div className="font-bold py-3">Padding</div>
-                <Slider value={pad} min={0} max={5} onChange={updatePadding} />
+                <Slider min={0} max={5} value={pad} onChange={updatePadding} />
               </div>
               <div className="p-1">
                 <div className="flex flex-row select-none w-full justify-evenly p-1">
