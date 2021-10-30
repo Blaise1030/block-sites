@@ -38,7 +38,7 @@ const CreatorRenderer = ({children}: any) => {
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
-    setColumns([4, 5, 6, 3][Math.abs(colIndex + increaseBy) % 4]);
+    setColumns([4, 5, 6][Math.abs(colIndex + increaseBy) % 3]);
     setColIndex(colIndex + increaseBy);
   };
 
@@ -97,7 +97,7 @@ const CreatorRenderer = ({children}: any) => {
         y: Infinity,
         resizeHandles: ["se"],
         i: `${largestIndex + 1}`,
-        x: (layout.length * 2) % columns,
+        x: layout.length % columns,
       })
     );
     setLargestIndex(largestIndex + 1);

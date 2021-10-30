@@ -154,10 +154,10 @@ const ImageEditor = ({id}: {id: string}) => {
             <div className="flex flex-col py-3">
               <div className="font-bold">Border Radius</div>
               <Slider
-                value={brdRadius}
-                min={0}
-                max={15}
                 onChange={updateBorderRadius}
+                value={brdRadius}
+                max={15}
+                min={0}
               />
             </div>
             <div className="flex flex-col py-3">
@@ -209,7 +209,7 @@ const ImageEditor = ({id}: {id: string}) => {
                   className={`${
                     selected
                       ? "bg-blue-500 text-white rounded shadow"
-                      : "bg-white text-black"
+                      : "bg-white text-black hover:bg-blue-100 duration-200"
                   } py-1 px-2`}
                 >
                   {label}

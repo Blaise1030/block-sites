@@ -15,6 +15,7 @@ type TextProps = {
   src?: string;
   text?: string;
   textSize: number;
+  padding?: number;
   textColor?: string;
   backgroundColor?: string;
   textStyle?: "italic" | "underline" | "line-through" | "font-bold";
@@ -27,11 +28,12 @@ const Text = React.memo(
     id,
     src,
     text,
+    padding,
     textSize,
     textColor,
     textStyle,
-    textAlignment,
     textVertical,
+    textAlignment,
     backgroundColor,
   }: TextProps) => {
     const [t, setText] = useState(text);
@@ -53,6 +55,7 @@ const Text = React.memo(
     return (
       <div
         style={{
+          padding: `${padding}rem`,
           color: textColor,
           backgroundSize: "cover",
           backgroundImage: `url(${src})`,
@@ -66,8 +69,7 @@ const Text = React.memo(
         onMouseLeave={() => setOnDoubleClick(false)}
         onDoubleClick={inflateEditor}
         className={`
-            border
-            p-2
+            border            
             flex
             w-full
             h-full
@@ -79,8 +81,7 @@ const Text = React.memo(
       >
         {!onDoubleClick && (
           <div
-            className={`
-            lg:p-2 p-0.5
+            className={`            
             h-min
             border-none
             resize-none
@@ -126,32 +127,35 @@ const TextEditor = ({id}: {id: string}) => {
     useContext(CreatorContext);
   const {deflateEditor} = useContext(EditorContext);
   const {
-    textColor,
-    backgroundColor,
-    textSize,
-    textAlignment,
-    textVertical,
-    textStyle,
     src,
     link,
+    padding,
+    textSize,
+    textColor,
+    textStyle,
+    textVertical,
+    textAlignment,
+    backgroundColor,
   } = layout.find(({i}) => i === id)?.data || {
     src: null,
-    textColor: "",
-    backgroundColor: "",
-    textSize: "",
-    textAlignment: "",
-    textVertical: "",
-    textStyle: "",
     link: null,
+    padding: null,
+    textSize: null,
+    textColor: null,
+    textStyle: null,
+    textVertical: null,
+    textAlignment: null,
+    backgroundColor: null,
   };
+  const [file, setFile] = useState<any>(src);
+  const [lnk, setLink] = useState(link || "");
+  const [pad, setPadding] = useState(padding);
   const [txtSize, setTextSize] = useState(textSize);
   const [txtColor, setTextColor] = useState(textColor);
+  const [txtFormat, setTxtFormat] = useState(textStyle);
   const [txtVertical, setTxtVertical] = useState(textVertical);
   const [bgColor, setBackgroundColor] = useState(backgroundColor);
   const [txtAlignment, setTxtAlignment] = useState(textAlignment);
-  const [lnk, setLink] = useState(link || "");
-  const [txtFormat, setTxtFormat] = useState(textStyle);
-  const [file, setFile] = useState<any>(src);
 
   const textAlignmentData = [
     {
@@ -221,44 +225,40 @@ const TextEditor = ({id}: {id: string}) => {
     onComponentUpdate({textSize}, id);
   };
 
-  const updateHAlignment = (alignment: string) => {
-    if (txtAlignment !== alignment) {
-      setTxtAlignment(alignment);
-      onComponentUpdate({textAlignment: alignment}, id);
+  const updateHAlignment = (textAlignment: string) => {
+    if (txtAlignment !== textAlignment) {
+      setTxtAlignment(textAlignment);
+      onComponentUpdate({textAlignment}, id);
     }
   };
 
-  const updateVAlignment = (alignment: string) => {
-    if (txtVertical !== alignment) {
-      setTxtVertical(alignment);
-      onComponentUpdate({textVertical: alignment}, id);
+  const updateVAlignment = (textVertical: string) => {
+    if (txtVertical !== textVertical) {
+      setTxtVertical(textVertical);
+      onComponentUpdate({textVertical}, id);
     }
   };
 
-  const updateTextFormatter = (newFormat: string) => {
-    if (txtFormat === newFormat) newFormat = "";
-    setTxtFormat(newFormat);
-    onComponentUpdate({textStyle: newFormat}, id);
+  const updateTextFormatter = (textStyle: string) => {
+    if (txtFormat === textStyle) textStyle = "";
+    setTxtFormat(textStyle);
+    onComponentUpdate({textStyle}, id);
   };
 
-  const uploadFiles = (newFile: File) => {
-    setFile(URL.createObjectURL(newFile));
-    onComponentUpdate(
-      {
-        src: URL.createObjectURL(newFile),
-      },
-      id
-    );
+  const uploadFiles = (file: File) => {
+    const src = URL.createObjectURL(file);
+    setFile(src);
+    onComponentUpdate({src}, id);
   };
 
-  const updateLink = (newLink: string) => {
-    setLink(newLink);
-    onComponentUpdate(
-      {
-        link: newLink,
-      },
-      id
-    );
+  const updateLink = (link: string) => {
+    setLink(link);
+    onComponentUpdate({link}, id);
+  };
+
+  const updatePadding = (padding: number) => {
+    setPadding(padding);
+    onComponentUpdate({padding}, id);
   };
 
   return (
@@ -272,7 +272,7 @@ const TextEditor = ({id}: {id: string}) => {
                 className="mx-auto my-5"
                 onChange={(e) =>
                   updateTextColor(
-                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1)
+                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 0)
                   )
                 }
                 color={txtColor}
@@ -281,7 +281,10 @@ const TextEditor = ({id}: {id: string}) => {
                 <div className="font-bold py-3">Size</div>
                 <Slider value={txtSize} onChange={updateTextSize} />
               </div>
-
+              <div className="my-5">
+                <div className="font-bold py-3">Padding</div>
+                <Slider value={pad} min={0} max={5} onChange={updatePadding} />
+              </div>
               <div className="p-1">
                 <div className="flex flex-row select-none w-full justify-evenly p-1">
                   {textVerticalData.map(({icon, newAlignement}) => (
@@ -325,7 +328,7 @@ const TextEditor = ({id}: {id: string}) => {
               <ChromePicker
                 onChange={(e) =>
                   updateBgColor(
-                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 1)
+                    RGBAToHexA(e.rgb.r, e.rgb.g, e.rgb.b, e.rgb?.a || 0)
                   )
                 }
                 className="mx-auto my-5"
@@ -388,7 +391,7 @@ const TextEditor = ({id}: {id: string}) => {
                   className={`${
                     selected
                       ? "bg-blue-500 text-white rounded shadow"
-                      : "bg-white text-black"
+                      : "bg-white text-black hover:bg-blue-100 duration-200"
                   } py-1 px-2`}
                 >
                   {label}

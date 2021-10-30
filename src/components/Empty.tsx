@@ -53,7 +53,7 @@ const EmptyEditor = ({id}: {id: string}) => {
       ({label, onSelected}: {label: string; onSelected: Function}) => (
         <div
           key={label}
-          className="hover:bg-gray-100 p-2 duration-100 rounded cursor-pointer"
+          className="hover:bg-blue-100 p-2 duration-100 rounded cursor-pointer"
           onClick={() => {
             onSelected();
             deflateEditor(null);
