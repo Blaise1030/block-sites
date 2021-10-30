@@ -16,7 +16,7 @@ const Project = () => {
       >
         <Link to={`${match.url}/profile`}>
           <img
-            className="object-cover rounded-full h-full w-full shadow-lg"
+            className="object-cover rounded-full h-full w-full shadow-lg border border-black"
             src={userData?.img}
             alt=""
           />
@@ -29,7 +29,7 @@ const Project = () => {
         Your Projects
       </div>
 
-      {[1, 2, 3].map((id) => (
+      {[1, 2, 3].map((id, index) => (
         <div
           key={id}
           style={{
@@ -38,19 +38,22 @@ const Project = () => {
                 ? widthResolver(width) / 2
                 : widthResolver(width) / 4,
           }}
-          className="
-          p-2 m-1          
+          className={`
+          hover:shadow-md          
+          p-2 m-1       
           relative
           border
           col-span-4
           rounded-lg
-          border-black
+          border-black                 
+          text-black
           lg:col-span-2          
           cursor-pointer flex          
-          items-end select-none"
+          items-end select-none`}
         >
           <div
             className="
+            rounded
             flex
             top-0
             left-0    
@@ -80,7 +83,7 @@ const Project = () => {
               >
                 Edit
               </Link>
-              <div className="bg-red-300 text-red-700 py-2 px-3 rounded w-full mt-2 hover:shadow-md duration-200">
+              <div className="bg-red-300 text-red-700 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200">
                 Delete
               </div>
             </div>
@@ -139,7 +142,7 @@ const AddProjectModal = ({closeModal}: any) => {
       />
       <div
         onClick={closeModal}
-        className="ml-auto bg-blue-500 text-white shadow py-2 px-4 rounded mt-2 w-min cursor-pointer hover:bg-blue-400 duration-200"
+        className="ml-auto bg-blue-500 text-white shadow py-2 px-4 rounded mt-2 w-min cursor-pointer hover:shadow-lg duration-200"
       >
         Start
       </div>
