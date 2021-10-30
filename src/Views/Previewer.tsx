@@ -19,7 +19,7 @@ const Previewer = () => {
         z-20"
       >
         <div
-          className="bg-blue-500 text-white font-semibold py-1 px-2 rounded w-full flex flex-row items-center justify-center"
+          className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
           onClick={() => history.goBack()}
         >
           <ChevronLeftIcon className="w-5 h-5" />

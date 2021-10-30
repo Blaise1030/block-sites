@@ -9,11 +9,12 @@ import {CreatorContext} from "../contexts/CreatorContext";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
-import {Link, useRouteMatch} from "react-router-dom";
+import {Link, useHistory, useRouteMatch} from "react-router-dom";
 import {Disclosure} from "@headlessui/react";
 
 const Creator = () => {
   const {deflateEditor} = useContext(EditorContext);
+  const history = useHistory();
   const {columns, backgroundImage, layout, setLayout, creatorWidth} =
     useContext(CreatorContext);
 
@@ -26,6 +27,22 @@ const Creator = () => {
         backgroundSize: "cover",
       }}
     >
+      <div
+        className="               
+        cursor-pointer                
+        left-3        
+        fixed
+        top-3                              
+        z-20"
+      >
+        <div
+          className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
+          onClick={() => history.goBack()}
+        >
+          <ChevronLeftIcon className="w-5 h-5" />
+          <div>Back</div>
+        </div>
+      </div>
       <ChangeBackgroundImage />
       <div
         className="mx-auto relative border rounded"
