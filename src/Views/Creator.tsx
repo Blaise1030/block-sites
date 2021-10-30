@@ -99,18 +99,18 @@ const ChangeBackgroundImage = () => {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 select-none w-300">
+    <div className="fixed bottom-2 right-2 select-none w-300">
       <div className="shadow-md border bg-white border-black rounded pl-5 pr-5 pb-5 pt-2">
         <Disclosure>
           {({open}) => (
             <>
-              <Disclosure.Panel className="text-gray-500">
+              <Disclosure.Panel className="text-black">
                 <Dropzone
                   onDrop={(acceptedFiles) => uploadFiles(acceptedFiles[0])}
                 >
                   {({getRootProps, getInputProps}) => (
                     <div className="m-auto">
-                      <div className=" font-bold pb-5 mt-3">
+                      <div className="font-bold pb-5 mt-3">
                         Background Image
                       </div>
                       <div className="flex flex-col w-full">

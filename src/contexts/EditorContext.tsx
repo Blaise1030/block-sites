@@ -35,7 +35,7 @@ const EditorRenderer = ({children}: any) => {
   return (
     <EditorContext.Provider value={{setEditor, componentId, deflateEditor}}>
       <div className="h-full w-full relative">
-        <div className="z-20 absolute left-10 bottom-10">
+        <div className="z-20 absolute left-2 bottom-2">
           <Transition
             show={showSideBar}
             enter="transform transition ease-linear duration-100"

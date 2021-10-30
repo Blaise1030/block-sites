@@ -9,19 +9,26 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
-import NavigationLayout from "./layouts/NavigationLayout";
+import DefaultLayout from "./layout/DefaultLayout";
+import Project from "./views/Project";
+import Authentication from "./contexts/AuthContext";
 
 const App = () => {
   return (
     <div className="h-screen w-screen relative overflow-x-hidden">
       <Router>
         <Switch>
-          <Route path="/home">
-            <HomeRoutes />
-          </Route>
-          <Route path="/create">
-            <CreateRoutes />
-          </Route>
+          <Route path="/page/:id"></Route>
+          <Authentication>
+            <>
+              <Route path="/home">
+                <HomeRoutes />
+              </Route>
+              <Route path="/create">
+                <CreateRoutes />
+              </Route>
+            </>
+          </Authentication>
         </Switch>
       </Router>
     </div>
@@ -31,22 +38,15 @@ const App = () => {
 const HomeRoutes = () => {
   let match = useRouteMatch();
   return (
-    <NavigationLayout>
+    <DefaultLayout>
       <Switch>
+        <Route children={<Project />} path={`${match.url}`} />
         <Route
           children={<div>This is the profile route</div>}
           path={`${match.url}/profile`}
         />
-        <Route
-          children={<div>This is the home route</div>}
-          path={`${match.url}/projects`}
-        />
-        <Route
-          children={<div>This is the home path</div>}
-          path={`${match.url}/`}
-        />
       </Switch>
-    </NavigationLayout>
+    </DefaultLayout>
   );
 };
 

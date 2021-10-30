@@ -1,8 +1,8 @@
 import React, {createContext, useState} from "react";
 type AuthContextType = {
   userData?: {
-    name: String;
-    img: String;
+    name: string;
+    img: string;
   };
 };
 
