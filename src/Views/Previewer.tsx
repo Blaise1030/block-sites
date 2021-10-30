@@ -3,12 +3,13 @@ import React, {useContext} from "react";
 import {useHistory} from "react-router-dom";
 import {CreatorContext} from "../contexts/CreatorContext";
 import useWindowDimensions, {widthResolver} from "../helper";
-import ArrowLeftIcon from "@heroicons/react/solid/ArrowLeftIcon";
+import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 
 const Previewer = () => {
   const history = useHistory();
-  const {packageSiteInfo, creatorWidth} = useContext(CreatorContext);
+  const {packageSiteInfo} = useContext(CreatorContext);
   const {columns, backgroundImage, layout} = packageSiteInfo() as any;
+  const {width} = useWindowDimensions();
 
   return (
     <div
@@ -20,29 +21,29 @@ const Previewer = () => {
       }}
     >
       <div
-        onClick={() => history.goBack()}
-        className="      
-        backdrop-blur-lg     
-        hover:shadow-lg                       
-        backdrop-filter cursor-pointer
-        bg-opacity-30 
-        rounded-full
-        bg-white                    
+        className="               
+        cursor-pointer                
         left-3        
         fixed
-        top-3                     
-        h-10 
-        z-20
-        w-10                                                                      
-        p-2"
+        top-3                              
+        z-20"
       >
-        <ArrowLeftIcon />
+        <div
+          onClick={() => history.goBack()}
+          className="bg-blue-500 text-white font-semibold py-1 px-2 rounded w-full flex flex-row items-center justify-center"
+        >
+          <ChevronLeftIcon className="w-5 h-5" />
+          <div>Back</div>
+        </div>
       </div>
-      <div className=" mx-auto relative pt-5" style={{width: creatorWidth}}>
+      <div
+        style={{width: widthResolver(width)}}
+        className="mx-auto relative pt-5"
+      >
         {layout && (
           <ReactGridLayout
-            rowHeight={creatorWidth / columns}
-            width={creatorWidth}
+            rowHeight={widthResolver(width) / columns}
+            width={widthResolver(width)}
             isResizable={false}
             isDraggable={false}
             className="layout"
