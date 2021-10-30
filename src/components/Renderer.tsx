@@ -1,7 +1,7 @@
 import React from "react";
 import useWindowDimensions, {widthResolver} from "../helper";
 
-type RendererPropType = {
+export type RendererPropType = {
   pageData: {
     backgroundImage: string;
     largestIndex: number;

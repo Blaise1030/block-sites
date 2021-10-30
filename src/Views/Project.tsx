@@ -3,20 +3,24 @@ import useWindowDimensions, {widthResolver} from "../helper";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import {AuthenticationContext} from "../contexts/AuthContext";
 import Modal from "../components/Modal";
+import {Link, useRouteMatch} from "react-router-dom";
 const Project = () => {
   const {width} = useWindowDimensions();
   const {userData} = useContext(AuthenticationContext);
+  let match = useRouteMatch();
   return (
     <>
       <div
         className="col-span-1 text-center flex items-center justify-center font-bold text-lg p-4 select-none"
         style={{height: widthResolver(width) / 4}}
       >
-        <img
-          className="object-cover rounded-full h-full w-full shadow-lg"
-          src={userData?.img}
-          alt=""
-        />
+        <Link to={`${match.url}/profile`}>
+          <img
+            className="object-cover rounded-full h-full w-full shadow-lg"
+            src={userData?.img}
+            alt=""
+          />
+        </Link>
       </div>
       <div
         className="col-span-3 flex items-center font-bold text-2xl text-left p-3 select-none justify-left"
@@ -25,9 +29,9 @@ const Project = () => {
         Your Projects
       </div>
 
-      {[1, 2, 3].map((index) => (
+      {[1, 2, 3].map((id) => (
         <div
-          key={index}
+          key={id}
           style={{
             height:
               width < 1024
@@ -64,12 +68,18 @@ const Project = () => {
             "
           >
             <div className="w-2/5 h-full flex flex-col items-center justify-center text-center">
-              <div className="bg-blue-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200">
+              <Link
+                className="bg-blue-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
+                to={`page/${id}`}
+              >
                 Checkout
-              </div>
-              <div className="bg-blue-300 text-blue-600 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200">
+              </Link>
+              <Link
+                className="bg-blue-300 text-blue-600 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200"
+                to={`create/${id}`}
+              >
                 Edit
-              </div>
+              </Link>
               <div className="bg-red-300 text-red-700 py-2 px-3 rounded w-full mt-2 hover:shadow-md duration-200">
                 Delete
               </div>

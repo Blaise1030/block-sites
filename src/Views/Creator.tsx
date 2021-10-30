@@ -9,7 +9,7 @@ import {CreatorContext} from "../contexts/CreatorContext";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
-import {Link} from "react-router-dom";
+import {Link, useRouteMatch} from "react-router-dom";
 import {Disclosure} from "@headlessui/react";
 
 const Creator = () => {
@@ -93,6 +93,7 @@ const ChangeBackgroundImage = () => {
     setBackgroundImage,
   } = useContext(CreatorContext);
 
+  const match = useRouteMatch();
   const uploadFiles = (file: File) => {
     const url = URL.createObjectURL(file);
     setBackgroundImage(url);
@@ -156,7 +157,7 @@ const ChangeBackgroundImage = () => {
             </>
           )}
         </Disclosure>
-        <Link className="shadow-md" to="/create/preview">
+        <Link className="shadow-md" to={`${match.url}/preview`}>
           <div className="bg-blue-500 text-white font-semibold py-2 px-1 rounded w-full flex flex-row items-center justify-center">
             <div>Next</div>
             <ChevronRightIcon className="w-5 h-5 mt-0.5 shadow" />

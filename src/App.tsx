@@ -12,26 +12,30 @@ import {
 import DefaultLayout from "./layout/DefaultLayout";
 import Project from "./views/Project";
 import Authentication from "./contexts/AuthContext";
+import Page from "./views/Page";
+import Profile from "./views/Profile";
 
 const App = () => {
   return (
     <div className="h-screen w-screen relative overflow-x-hidden">
       <Router>
         <Switch>
-          <Route path="/page/:id"></Route>
-          <Authentication>
-            <>
-              <Route path="/home">
-                <HomeRoutes />
-              </Route>
-              <Route path="/create">
-                <CreateRoutes />
-              </Route>
-            </>
-          </Authentication>
+          <Route path="/page/:id" component={Page} />
+          <AuthenticationRoutes />
         </Switch>
       </Router>
     </div>
+  );
+};
+
+const AuthenticationRoutes = () => {
+  return (
+    <Authentication>
+      <>
+        <Route path="/home" component={HomeRoutes} />
+        <Route path="/create/:id" component={CreateRoutes} />
+      </>
+    </Authentication>
   );
 };
 
@@ -40,11 +44,8 @@ const HomeRoutes = () => {
   return (
     <DefaultLayout>
       <Switch>
-        <Route children={<Project />} path={`${match.url}`} />
-        <Route
-          children={<div>This is the profile route</div>}
-          path={`${match.url}/profile`}
-        />
+        <Route path={`${match.url}/profile`} component={Profile} />
+        <Route path={`${match.url}`} component={Project} />
       </Switch>
     </DefaultLayout>
   );
@@ -56,16 +57,17 @@ const CreateRoutes = () => {
     <CreatorRenderer>
       <Switch>
         <Route path={`${match.url}/preview`} component={Previewer} />
-        <Route
-          path={`${match.url}/`}
-          children={
-            <EditorRenderer>
-              <Creator />
-            </EditorRenderer>
-          }
-        />
+        <Route path={`${match.url}`} component={CreatorContexts} />
       </Switch>
     </CreatorRenderer>
+  );
+};
+
+const CreatorContexts = () => {
+  return (
+    <EditorRenderer>
+      <Creator />
+    </EditorRenderer>
   );
 };
 
