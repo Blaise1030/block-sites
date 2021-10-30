@@ -77,6 +77,7 @@ const ImageEditor = ({id}: {id: string}) => {
     setFile(URL.createObjectURL(newFile));
     onComponentUpdate(
       {
+        new: true,
         src: URL.createObjectURL(newFile),
       },
       id

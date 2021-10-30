@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import CreatorRenderer from "./contexts/CreatorContext";
 import EditorRenderer from "./contexts/EditorContext";
 import Creator from "./views/Creator";
@@ -16,8 +16,12 @@ import Page from "./views/Page";
 import Profile from "./views/Profile";
 import Home from "./views/Home";
 import Login from "./views/Login";
+import initializeFirebase from "./api/firebase";
 
 const App = () => {
+  useEffect(() => {
+    initializeFirebase();
+  });
   return (
     <div className="h-screen w-screen relative overflow-x-hidden">
       <Router>

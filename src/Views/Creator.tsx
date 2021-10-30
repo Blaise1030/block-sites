@@ -117,7 +117,7 @@ const ChangeBackgroundImage = () => {
   };
 
   return (
-    <div className="fixed bottom-2 right-2 select-none w-300">
+    <div className="fixed bottom-2 right-2 select-none w-300 z-20">
       <div className="shadow-md border bg-white border-black rounded pl-5 pr-5 pb-5 pt-2">
         <Disclosure>
           {({open}) => (

@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import {EditorContext} from "../contexts/EditorContext";
 import {CreatorContext} from "../contexts/CreatorContext";
+import {IMAGE, TEXT} from "../api/constant";
 
 const Empty = ({id}: {id: string}) => {
   const {setEditor} = useContext(EditorContext);
@@ -26,7 +27,7 @@ const EmptyEditor = ({id}: {id: string}) => {
       onSelected: () =>
         onComponentUpdate(
           {
-            type: "text",
+            type: TEXT,
             padding: 1,
             textSize: 20,
             textColor: "black",
@@ -42,7 +43,8 @@ const EmptyEditor = ({id}: {id: string}) => {
       onSelected: () =>
         onComponentUpdate(
           {
-            type: "image",
+            type: IMAGE,
+            new: true,
           },
           id
         ),
