@@ -37,7 +37,14 @@ const Renderer = ({pageData}: RendererPropType) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full overflow-auto"
+      style={{
+        backgroundImage: `url(${pageData.backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <div
         className={`h-full m-auto grid grid-cols-${pageData.columns}`}
         style={{width: widthResolver(width)}}
@@ -76,7 +83,7 @@ const DisplayImage = ({
     className="w-full h-full"
   >
     <img
-      className={`object-cover h-full w-full p-1`}
+      className={`object-cover h-full w-full`}
       style={{borderRadius: `${borderRadius}rem`}}
       src={src}
       alt="img"
