@@ -19,7 +19,7 @@ const Creator = () => {
 
   return (
     <div
-      className="bg-white flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative pt-10"
+      className="bg-white flex flex-col items-start justify-start w-full h-full overflow-y-scroll overflow-x-hidden relative pt-5"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: "no-repeat",

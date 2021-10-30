@@ -38,7 +38,7 @@ const Previewer = () => {
       >
         <ArrowLeftIcon />
       </div>
-      <div className=" mx-auto relative pt-10" style={{width: creatorWidth}}>
+      <div className=" mx-auto relative pt-5" style={{width: creatorWidth}}>
         {layout && (
           <ReactGridLayout
             rowHeight={creatorWidth / columns}

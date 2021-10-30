@@ -32,13 +32,13 @@ const CreatorRenderer = ({children}: any) => {
   const {width} = useWindowDimensions();
   const [layout, setLayout] = useState<any>(null);
   const [columns, setColumns] = useState<number>(4);
-  const [colIndex, setColIndex] = useState<number>(0);
+  const [colIndex, setColIndex] = useState<number>(1);
   const [creatorWidth, _] = useState<number>(widthResolver(width));
   const [largestIndex, setLargestIndex] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
-    setColumns([4, 5, 6][Math.abs(colIndex + increaseBy) % 3]);
+    setColumns([3, 4, 5, 6][Math.abs(colIndex + increaseBy) % 4]);
     setColIndex(colIndex + increaseBy);
   };
 
