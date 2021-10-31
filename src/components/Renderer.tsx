@@ -36,6 +36,15 @@ const Renderer = ({pageData}: RendererPropType) => {
     }
   };
 
+  console.log(
+    pageData.layout
+      .map((data) => ({
+        ...data,
+        order: data.y * pageData.columns + data.x,
+      }))
+      .sort((data1: any, data2: any) => data1.order - data2.order)
+  );
+
   return (
     <div
       className="w-full h-full overflow-auto"
@@ -50,7 +59,7 @@ const Renderer = ({pageData}: RendererPropType) => {
         style={{width: widthResolver(width)}}
       >
         {pageData.layout
-          .map((data) => ({...data, order: data.y * 10 + data.x}))
+          .map((data) => ({...data, order: data.y * pageData.columns + data.x}))
           .sort((data1: any, data2: any) => data1.order - data2.order)
           .map(({w, h, order, data, i}) => (
             <div

@@ -21,7 +21,7 @@ import initializeFirebase from "./api/firebase";
 const App = () => {
   useEffect(() => {
     initializeFirebase();
-  });
+  }, []);
   return (
     <div className="h-screen w-screen relative overflow-x-hidden">
       <Router>
