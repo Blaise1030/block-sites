@@ -63,8 +63,11 @@ const Renderer = ({pageData}: RendererPropType) => {
           {pageData.layout.map(({w, h, data, i}: any) => (
             <div
               key={i}
-              className={`col-span-${w} ${data.link ? "cursor-pointer" : ""}`}
-              style={{height: (widthResolver(width) * h) / pageData.columns}}
+              className={`${data.link ? "cursor-pointer" : ""}`}
+              style={{
+                height: (widthResolver(width) * h) / pageData.columns,
+                width: (widthResolver(width) * w) / pageData.columns,
+              }}
               onClick={() => {
                 if (data.link) window.open(data.link, "_blank");
               }}
