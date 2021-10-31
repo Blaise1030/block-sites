@@ -1,41 +1,33 @@
-import {getDatabase, ref, set} from "firebase/database";
+import {getDatabase, ref, set, update} from "firebase/database";
 import {DATABASE_URL, IMAGE, PAGE} from "./constant";
 import uploadImageFromBlob from "./uploadImageFromBlob";
 
-const postPageData = async (
-  pageData: any,
-  userId: number,
-  projectName: string
-) => {
+const putProjectData = async (pageData: any, projectId: number) => {
   const currentTime = Date.now();
 
   try {
+    // Uploads the image and removes all undefined fields
     pageData.layout = await Promise.all(
       pageData.layout.map(async (o: any) => {
-        // Remove undefined fields
         Object.keys(o).forEach((key) => o[key] === undefined && delete o[key]);
-        // Upload Files to storage
         if (o?.data?.type === IMAGE && o?.data?.new) {
+          o.data.new = false;
           o.data.src = await uploadImageFromBlob(
             `${o.x}${o.y}${currentTime}`,
             o?.data?.src
           );
-          o.data.new = false;
         }
         return o;
       })
     );
     const db = getDatabase(undefined, DATABASE_URL);
-    await set(ref(db, `/${PAGE}/${currentTime}${userId}`), {
-      pageId: `${currentTime}${userId}`,
-      creationDate: currentTime,
-      projectName,
+    await update(ref(db, `/${PAGE}/${projectId}`), {
+      modifiedTime: currentTime,
       pageData,
-      userId,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export {postPageData};
+export {putProjectData};
