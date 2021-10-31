@@ -1,4 +1,5 @@
 import React from "react";
+import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions, {widthResolver} from "../helper";
 
 export type RendererPropType = {
@@ -36,15 +37,6 @@ const Renderer = ({pageData}: RendererPropType) => {
     }
   };
 
-  console.log(
-    pageData.layout
-      .map((data) => ({
-        ...data,
-        order: data.y * pageData.columns + data.x,
-      }))
-      .sort((data1: any, data2: any) => data1.order - data2.order)
-  );
-
   return (
     <div
       className="w-full h-full overflow-auto"
@@ -55,24 +47,32 @@ const Renderer = ({pageData}: RendererPropType) => {
       }}
     >
       <div
-        className={`h-full m-auto grid grid-cols-${pageData.columns}`}
+        className="mx-auto relative rounded"
         style={{width: widthResolver(width)}}
       >
-        {pageData.layout
-          .map((data) => ({...data, order: data.y * pageData.columns + data.x}))
-          .sort((data1: any, data2: any) => data1.order - data2.order)
-          .map(({w, h, order, data, i}) => (
+        <ReactGridLayout
+          rowHeight={widthResolver(width) / pageData.columns}
+          layout={pageData.layout as any}
+          width={widthResolver(width)}
+          cols={pageData.columns}
+          isDraggable={false}
+          isResizable={false}
+          className="layout"
+          margin={[0, 0]}
+        >
+          {pageData.layout.map(({w, h, data, i}: any) => (
             <div
+              key={i}
               className={`col-span-${w} ${data.link ? "cursor-pointer" : ""}`}
               style={{height: (widthResolver(width) * h) / pageData.columns}}
               onClick={() => {
                 if (data.link) window.open(data.link, "_blank");
               }}
-              key={order}
             >
               {renderer(data, i)}
             </div>
           ))}
+        </ReactGridLayout>
       </div>
     </div>
   );
