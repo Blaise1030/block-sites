@@ -113,6 +113,7 @@ const DisplayText = React.memo(
     textStyle,
     textColor,
     textSize,
+    padding,
     text,
     src,
   }: any) => {
@@ -123,6 +124,7 @@ const DisplayText = React.memo(
           textShadow: src
             ? "0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)"
             : "",
+          padding: `${padding}rem`,
           fontSize: textSize * (widthResolver(width) / creatorWidth),
           backgroundColor: backgroundColor,
           backgroundRepeat: "no-repeat",
