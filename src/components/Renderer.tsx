@@ -64,12 +64,12 @@ const Renderer = ({pageData}: RendererPropType) => {
             <div
               key={i}
               className={`${data.link ? "cursor-pointer" : ""}`}
+              onClick={() => {
+                if (data.link) window.open(data.link, "_blank");
+              }}
               style={{
                 height: (widthResolver(width) * h) / pageData.columns,
                 width: (widthResolver(width) * w) / pageData.columns,
-              }}
-              onClick={() => {
-                if (data.link) window.open(data.link, "_blank");
               }}
             >
               {renderer(data, i)}
