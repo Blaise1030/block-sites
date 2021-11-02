@@ -1,5 +1,9 @@
 import {getAuth} from "@firebase/auth";
+import {getDatabase} from "@firebase/database";
+import {getFirestore} from "@firebase/firestore";
+import {getStorage} from "@firebase/storage";
 import {initializeApp} from "firebase/app";
+import {browserLocalPersistence, setPersistence} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtLzmYYJw4DxglBKKcRPDWyl2cpEySD9I",
@@ -12,9 +16,16 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const initializeFirebase = () => initializeApp(firebaseConfig);
-initializeApp(firebaseConfig);
-const auth = getAuth();
-export {auth};
 
+initializeApp(firebaseConfig);
+
+const firestore = getFirestore();
+const database = getDatabase();
+const storage = getStorage();
+const auth = getAuth();
+
+setPersistence(auth, browserLocalPersistence);
+const initializeFirebase = () => console.log("Firebase loaded");
+
+export {auth, firestore, database, storage};
 export default initializeFirebase;

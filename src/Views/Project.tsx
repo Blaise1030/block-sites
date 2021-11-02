@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from "react";
+import React, {ReactElement, useContext, useEffect, useState} from "react";
 import useWindowDimensions, {widthResolver} from "../helper";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import {AuthenticationContext} from "../contexts/AuthContext";
@@ -6,8 +6,9 @@ import Modal from "../components/Modal";
 import {Link, useRouteMatch} from "react-router-dom";
 const Project = () => {
   const {width} = useWindowDimensions();
-  const {userData} = useContext(AuthenticationContext);
+  const {userData, projects, loadingData} = useContext(AuthenticationContext);
   let match = useRouteMatch();
+
   return (
     <>
       <div
@@ -28,17 +29,27 @@ const Project = () => {
       >
         Your Projects
       </div>
+      <div className="grid grid-cols-4 col-span-4 relative">
+        {loadingData && (
+          <div className="absolute w-full h-full flex flex-cols items-center justify-center mt-5">
+            <div className="border shadow-md bg-white rounded-full w-16 h-16 p-1 flex flex-col items-center justify-center">
+              <div className="animate-spin w-14 h-14 bg-gradient-to-r from-blue-500 rounded-full flex flex-col items-center justify-center">
+                <div className="w-10 h-10 bg-white rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        )}
 
-      {[1, 2, 3].map((id, index) => (
-        <div
-          key={id}
-          style={{
-            height:
-              width < 1024
-                ? widthResolver(width) / 2
-                : widthResolver(width) / 4,
-          }}
-          className={`
+        {projects.map((id, index) => (
+          <div
+            key={id}
+            style={{
+              height:
+                width < 1024
+                  ? widthResolver(width) / 2
+                  : widthResolver(width) / 4,
+            }}
+            className={`
           hover:shadow-md          
           p-2 m-1       
           relative
@@ -50,9 +61,9 @@ const Project = () => {
           lg:col-span-2          
           cursor-pointer flex          
           items-end select-none`}
-        >
-          <div
-            className="
+          >
+            <div
+              className="
             rounded
             flex
             top-0
@@ -69,28 +80,30 @@ const Project = () => {
             justify-center            
             hover:opacity-100 
             "
-          >
-            <div className="w-2/5 h-full flex flex-col items-center justify-center text-center">
-              <Link
-                className="bg-blue-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
-                to={`page/${id}`}
-              >
-                Checkout
-              </Link>
-              <Link
-                className="bg-blue-300 text-blue-600 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200"
-                to={`create/${id}`}
-              >
-                Edit
-              </Link>
-              <div className="bg-red-300 text-red-700 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200">
-                Delete
+            >
+              <div className="w-2/5 h-full flex flex-col items-center justify-center text-center">
+                <Link
+                  className="bg-blue-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
+                  to={`page/${id}`}
+                >
+                  Checkout
+                </Link>
+                <Link
+                  className="bg-blue-300 text-blue-600 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200"
+                  to={`create/${id}`}
+                >
+                  Edit
+                </Link>
+                <div className="bg-red-300 text-red-700 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200">
+                  Delete
+                </div>
               </div>
             </div>
+            <div className="font-bold text-xl">Project Name</div>
           </div>
-          <div className="font-bold text-xl">Project Name</div>
-        </div>
-      ))}
+        ))}
+      </div>
+
       <div
         className="    
           m-1
