@@ -43,7 +43,6 @@ const Authentication = ({children}: any) => {
     if (userData) {
       getUserProject(userData.id, (data: any) => {
         if (data) setProjects(data);
-        console.log(data);
         setLoadingData(false);
       });
     }
