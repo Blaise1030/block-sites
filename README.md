@@ -1,2 +1,2 @@
-# block-sites
+# Block Sites
 Yet Another Website Builder
