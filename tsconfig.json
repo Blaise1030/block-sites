@@ -17,5 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx","tests/**/*.ts"],
+  "include": [
+    "src/**/*" // *** The files TypeScript should type check ***
+  ],
 }
