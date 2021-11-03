@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {useHistory, useRouteMatch} from "react-router-dom";
 import {CreatorContext} from "../contexts/CreatorContext";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
@@ -7,10 +7,8 @@ import {putProjectData} from "../api/putPageData";
 
 const Previewer = () => {
   const {packageSiteInfo} = useContext(CreatorContext);
-  const {projectId} = useContext(CreatorContext);
   const history = useHistory();
-
-  console.log(projectId);
+  const match = useRouteMatch();
 
   return (
     <div className="w-full h-full relative">
@@ -39,7 +37,7 @@ const Previewer = () => {
         z-20"
       >
         <div
-          onClick={() => putProjectData(packageSiteInfo(), 1)}
+          onClick={() => putProjectData(packageSiteInfo(), match.params.id)}
           className="bg-blue-500 text-white font-semibold py-2 px-3 rounded w-full flex flex-row items-center justify-center"
         >
           <div>Deploy</div>

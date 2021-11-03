@@ -49,6 +49,7 @@ const Authentication = ({children}: any) => {
   }, [userData]);
 
   const login = async () => {
+    console.log("hello");
     try {
       const res = await signInWithPopup(auth, new GoogleAuthProvider());
       const user = res.user;
@@ -58,6 +59,7 @@ const Authentication = ({children}: any) => {
         img: user?.photoURL,
         email: user.email,
       } as any);
+      console.log("hello");
       history.push("/home");
     } catch (e) {
       console.log(e);

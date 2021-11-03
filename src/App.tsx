@@ -1,35 +1,34 @@
-import React, {ReactElement, useContext, useEffect} from "react";
-import CreatorRenderer from "./contexts/CreatorContext";
-import EditorRenderer from "./contexts/EditorContext";
+import Home from "./views/Home";
+import Page from "./views/Page";
+import Login from "./views/Login";
+import Profile from "./views/Profile";
+import Project from "./views/Project";
 import Creator from "./views/Creator";
 import Previewer from "./views/Previewer";
+import initializeFirebase from "./api/firebase";
+import DefaultLayout from "./layout/DefaultLayout";
+import EditorRenderer from "./contexts/EditorContext";
+import CreatorRenderer from "./contexts/CreatorContext";
+import {ReactElement, useContext, useEffect} from "react";
+import Authentication, {AuthenticationContext} from "./contexts/AuthContext";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useRouteMatch,
   Redirect,
 } from "react-router-dom";
-import DefaultLayout from "./layout/DefaultLayout";
-import Project from "./views/Project";
-import Authentication, {AuthenticationContext} from "./contexts/AuthContext";
-import Page from "./views/Page";
-import Profile from "./views/Profile";
-import Home from "./views/Home";
-import Login from "./views/Login";
-import initializeFirebase from "./api/firebase";
 
 const App = () => {
   useEffect(() => {
     initializeFirebase();
   }, []);
   return (
-    <div className="h-screen w-screen relative overflow-x-hidden">
+    <div className="h-screen w-screen relative overflow-hidden">
       <Router>
         <Switch>
           <Route path="/page/:id" component={Page} />
-          <Route path="/login" component={Login} />
           <Authentication>
+            <Route path="/login" component={Login} />
             <Route
               path="/home"
               render={() => (

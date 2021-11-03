@@ -1,11 +1,9 @@
-import React, {useContext} from "react";
+import {useContext} from "react";
 import LoginIcon from "@heroicons/react/solid/LoginIcon";
-import {useHistory} from "react-router-dom";
 import {AuthenticationContext} from "../contexts/AuthContext";
 
 const Login = () => {
-  const {userData, login} = useContext(AuthenticationContext);
-  const history = useHistory();
+  const {login} = useContext(AuthenticationContext);
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col">

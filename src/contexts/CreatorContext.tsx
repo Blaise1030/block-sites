@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import useWindowDimensions, {widthResolver} from "../helper";
 
 type CreatorContextType = {
@@ -9,9 +9,11 @@ type CreatorContextType = {
   backgroundImage?: string;
   onAddComponent: () => void;
   packageSiteInfo: () => void;
-  setLayout: (layout: any) => void;
   setProjectId: (id: any) => void;
+  setLayout: (layout: any) => void;
   updateColumns: (col: number) => void;
+  setColIndex: (index: number) => void;
+  setLargestIndex: (num: number) => void;
   onComponentDelete: (id: string) => void;
   setBackgroundImage: (img: string) => void;
   onComponentUpdate: (data: any, id: string) => void;
@@ -23,10 +25,12 @@ export const CreatorContext = createContext<CreatorContextType>({
   projectId: "",
   creatorWidth: 0,
   setLayout: () => {},
+  setColIndex: () => {},
   setProjectId: () => {},
   updateColumns: () => {},
   onAddComponent: () => {},
   packageSiteInfo: () => {},
+  setLargestIndex: () => {},
   onComponentUpdate: () => {},
   onComponentDelete: () => {},
   setBackgroundImage: () => {},
@@ -143,12 +147,14 @@ const CreatorRenderer = ({children}: any) => {
         setBackgroundImage,
         onComponentUpdate,
         onComponentDelete,
+        setLargestIndex,
         backgroundImage,
         packageSiteInfo,
         onAddComponent,
         updateColumns,
         setProjectId,
         creatorWidth,
+        setColIndex,
         setLayout,
         projectId,
         columns,

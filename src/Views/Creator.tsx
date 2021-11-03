@@ -1,34 +1,57 @@
-import React, {useContext, useEffect} from "react";
 import Dropzone from "react-dropzone";
 import Text from "../components/Text";
 import Image from "../components/Image";
 import Empty from "../components/Empty";
+import {Disclosure} from "@headlessui/react";
 import ReactGridLayout from "react-grid-layout";
+import React, {useContext, useEffect, useState} from "react";
 import {EditorContext} from "../contexts/EditorContext";
 import {CreatorContext} from "../contexts/CreatorContext";
+import {Link, useHistory, useRouteMatch} from "react-router-dom";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
-import {Link, useHistory, useRouteMatch} from "react-router-dom";
-import {Disclosure} from "@headlessui/react";
+import getProjectData from "../api/getPageData";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const Creator = () => {
   const {deflateEditor} = useContext(EditorContext);
-  const history = useHistory();
+  const [loading, setIsLoading] = useState(true);
   const match = useRouteMatch();
+  const history = useHistory();
 
   const {
     layout,
     columns,
     setLayout,
+    projectId,
+    setColIndex,
     creatorWidth,
     setProjectId,
+    updateColumns,
     backgroundImage,
+    setLargestIndex,
+    setBackgroundImage,
   } = useContext(CreatorContext);
 
   useEffect(() => {
-    setProjectId(match.params.id);
+    getWebsiteData();
   }, []);
+
+  const getWebsiteData = async () => {
+    if (!projectId) {
+      setProjectId(match.params.id);
+      const layout = await getProjectData(match.params.id);
+      if (layout) {
+        setLayout(layout.layout);
+        setColIndex(layout.colIndex);
+        updateColumns(layout.columns);
+        setLargestIndex(layout.largestIndex);
+        setBackgroundImage(layout.backgroundImage);
+      }
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div
@@ -39,12 +62,13 @@ const Creator = () => {
         backgroundSize: "cover",
       }}
     >
+      {loading && <LoadingIndicator />}
       <div
         className="               
         cursor-pointer                
         left-3        
         fixed
-        top-3                              
+        top-3                                      
         z-20"
       >
         <div
