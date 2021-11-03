@@ -27,6 +27,8 @@ const Creator = () => {
     projectId,
     setColIndex,
     creatorWidth,
+    onLayoutInit,
+    clearCreator,
     setProjectId,
     updateColumns,
     backgroundImage,
@@ -48,7 +50,7 @@ const Creator = () => {
         updateColumns(layout.columns);
         setLargestIndex(layout.largestIndex);
         setBackgroundImage(layout.backgroundImage);
-      }
+      } else onLayoutInit();
     }
     setIsLoading(false);
   };
@@ -73,7 +75,10 @@ const Creator = () => {
       >
         <div
           className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
-          onClick={() => history.goBack()}
+          onClick={() => {
+            clearCreator();
+            history.goBack();
+          }}
         >
           <ChevronLeftIcon className="w-5 h-5" />
           <div>Back</div>

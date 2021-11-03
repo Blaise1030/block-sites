@@ -29,17 +29,29 @@ const App = () => {
           <Route path="/page/:id" component={Page} />
           <Authentication>
             <Route path="/login" component={Login} />
-            <Route
-              path="/home"
-              render={() => (
+            <RouteGaurds
+              path="/home/main"
+              component={
                 <DefaultLayout>
-                  <Switch>
-                    <RouteGaurds path="" component={<Project />} />
-                    <RouteGaurds path="profile" component={<Profile />} />
-                    <RouteGaurds path="main" component={<Home />} />
-                  </Switch>
+                  <Home />
                 </DefaultLayout>
-              )}
+              }
+            />
+            <RouteGaurds
+              path="/home/profile"
+              component={
+                <DefaultLayout>
+                  <Profile />
+                </DefaultLayout>
+              }
+            />
+            <RouteGaurds
+              path="/home"
+              component={
+                <DefaultLayout>
+                  <Project />
+                </DefaultLayout>
+              }
             />
             <CreatorRenderer>
               <RouteGaurds path="/preview/:id" component={<Previewer />} />

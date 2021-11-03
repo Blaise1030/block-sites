@@ -2,6 +2,9 @@ import {getStorage, uploadString, ref} from "firebase/storage";
 import axios from "axios";
 
 const uploadImageFromBlob = async (fileName: string, blobUrl: string) => {
+  if (blobUrl.includes(`https://firebasestorage.googleapis.com/v0/b/`))
+    return blobUrl;
+
   const res = await axios({responseType: "blob", method: "get", url: blobUrl});
   const storage = getStorage();
   const storageRef = ref(storage, fileName);

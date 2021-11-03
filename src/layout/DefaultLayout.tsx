@@ -14,10 +14,10 @@ const DefaultLayout = ({children}: any) => {
     <div className="w-full h-full">
       <div className="fixed left-0 bottom-0 bg-white flex flex-col items-center justify-center h-full p-2">
         <div className="text-black flex flex-col border-2 p-2 rounded border-black bg-white">
-          <Link to={`${match.url}/main`}>
+          <Link to={`/home/main`}>
             <HomeIcon className="w-8 h-8 hover:bg-gray-100 rounded-full p-1 cursor-pointer" />
           </Link>
-          <Link to={`${match.url}`}>
+          <Link to={`/home`}>
             <FolderIcon className="w-8 h-8 hover:bg-gray-100 rounded-full p-1 cursor-pointer mt-4" />
           </Link>
           <LogoutIcon

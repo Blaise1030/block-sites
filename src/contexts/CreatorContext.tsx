@@ -6,6 +6,8 @@ type CreatorContextType = {
   projectId: string;
   layout: Array<any>;
   creatorWidth: number;
+  onLayoutInit: () => void;
+  clearCreator: () => void;
   backgroundImage?: string;
   onAddComponent: () => void;
   packageSiteInfo: () => void;
@@ -16,6 +18,7 @@ type CreatorContextType = {
   setLargestIndex: (num: number) => void;
   onComponentDelete: (id: string) => void;
   setBackgroundImage: (img: string) => void;
+
   onComponentUpdate: (data: any, id: string) => void;
 };
 
@@ -27,6 +30,8 @@ export const CreatorContext = createContext<CreatorContextType>({
   setLayout: () => {},
   setColIndex: () => {},
   setProjectId: () => {},
+  clearCreator: () => {},
+  onLayoutInit: () => {},
   updateColumns: () => {},
   onAddComponent: () => {},
   packageSiteInfo: () => {},
@@ -49,6 +54,18 @@ const CreatorRenderer = ({children}: any) => {
   const updateColumns = (increaseBy: number) => {
     setColumns([3, 4, 5, 6][Math.abs(colIndex + increaseBy) % 4]);
     setColIndex(colIndex + increaseBy);
+  };
+
+  const onComponentDelete = (id: string) =>
+    setLayout(layout.filter(({i}: any) => i !== id));
+
+  const clearCreator = () => {
+    setLayout([]);
+    setColumns(4);
+    setColIndex(1);
+    setLargestIndex(0);
+    setProjectId(undefined);
+    setBackgroundImage("");
   };
 
   const packageSiteInfo = () => {
@@ -88,10 +105,6 @@ const CreatorRenderer = ({children}: any) => {
             };
       })
     );
-  };
-
-  const onComponentDelete = (id: string) => {
-    setLayout(layout.filter(({i}: any) => i !== id));
   };
 
   const onAddComponent = () => {
@@ -137,8 +150,7 @@ const CreatorRenderer = ({children}: any) => {
   };
 
   useEffect(() => {
-    if (!layout) onLayoutInit();
-    else onColumnsUpdate();
+    if (layout) onColumnsUpdate();
   }, [columns]);
 
   return (
@@ -152,8 +164,10 @@ const CreatorRenderer = ({children}: any) => {
         packageSiteInfo,
         onAddComponent,
         updateColumns,
+        clearCreator,
         setProjectId,
         creatorWidth,
+        onLayoutInit,
         setColIndex,
         setLayout,
         projectId,
