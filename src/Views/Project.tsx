@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import {useContext, useState} from "react";
 import Modal from "../components/Modal";
 import postUserProject from "../api/postUserProject";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useHistory, useRouteMatch} from "react-router";
 import getProjectData from "../api/getPageData";
 import Renderer, {RendererPropType} from "../components/Renderer";

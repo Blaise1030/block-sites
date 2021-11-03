@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import {useContext} from "react";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";
 import {EditorContext} from "../contexts/EditorContext";
 import {CreatorContext} from "../contexts/CreatorContext";

@@ -1,5 +1,3 @@
-import React from "react";
-
 const LoadingIndicator = () => {
   return (
     <div className="absolute w-full h-full flex flex-cols items-center justify-center bg-white bg-opacity-80 rounded z-20">
