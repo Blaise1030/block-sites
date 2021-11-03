@@ -1,3 +1,4 @@
+import {ReactElement, useContext, useEffect} from "react";
 import Home from "./views/Home";
 import Page from "./views/Page";
 import Login from "./views/Login";
@@ -9,7 +10,6 @@ import initializeFirebase from "./api/firebase";
 import DefaultLayout from "./layout/DefaultLayout";
 import EditorRenderer from "./contexts/EditorContext";
 import CreatorRenderer from "./contexts/CreatorContext";
-import {ReactElement, useContext, useEffect} from "react";
 import Authentication, {AuthenticationContext} from "./contexts/AuthContext";
 import {
   BrowserRouter as Router,
