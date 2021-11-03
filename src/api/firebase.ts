@@ -7,18 +7,18 @@ import {browserLocalPersistence, setPersistence} from "firebase/auth";
 import {DATABASE_URL} from "./constant";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAtLzmYYJw4DxglBKKcRPDWyl2cpEySD9I",
-  authDomain: "block-site-acb64.firebaseapp.com",
-  projectId: "block-site-acb64",
-  storageBucket: "block-site-acb64.appspot.com",
-  messagingSenderId: "450509114509",
-  appId: "1:450509114509:web:0c4457c36bf5ba63c326c4",
-  measurementId: "G-XHQVBMLR69",
+  apiKey: import.meta.env.VITE_APP_API_KEY,
+  authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_APP_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_APP_ID,
+  measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
 
-initializeApp(firebaseConfig);
+initializeApp(firebaseConfig as any);
 
 const firestore = getFirestore();
 const database = getDatabase(undefined, DATABASE_URL);
