@@ -28,24 +28,24 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/page/:id" component={Page} />
+          <Route path="/login" component={Login} />
           <Authentication>
+            <Route
+              path="/home"
+              render={() => (
+                <DefaultLayout>
+                  <Switch>
+                    <RouteGaurds path="" component={<Project />} />
+                    <RouteGaurds path="profile" component={<Profile />} />
+                    <RouteGaurds path="main" component={<Home />} />
+                  </Switch>
+                </DefaultLayout>
+              )}
+            />
             <CreatorRenderer>
+              <RouteGaurds path="/preview/:id" component={<Previewer />} />
               <EditorRenderer>
-                <RouteGaurds path="/preview/:id" component={<Previewer />} />
                 <RouteGaurds path="/create/:id" component={<Creator />} />
-                <Route path="/login" component={Login} />
-                <Route
-                  path="/home"
-                  render={() => (
-                    <DefaultLayout>
-                      <Switch>
-                        <RouteGaurds path="" component={<Project />} />
-                        <RouteGaurds path="profile" component={<Profile />} />
-                        <RouteGaurds path="main" component={<Home />} />
-                      </Switch>
-                    </DefaultLayout>
-                  )}
-                />
               </EditorRenderer>
             </CreatorRenderer>
           </Authentication>
