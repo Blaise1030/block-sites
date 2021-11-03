@@ -37,7 +37,6 @@ const Creator = () => {
   } = useContext(CreatorContext);
 
   useEffect(() => {
-    clearCreator();
     getWebsiteData();
   }, []);
 
@@ -51,7 +50,10 @@ const Creator = () => {
         updateColumns(layout.columns);
         setLargestIndex(layout.largestIndex);
         setBackgroundImage(layout.backgroundImage);
-      } else onLayoutInit();
+      } else {
+        clearCreator();
+        onLayoutInit();
+      }
     }
     setIsLoading(false);
   };
