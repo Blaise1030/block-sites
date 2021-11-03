@@ -4,6 +4,7 @@ import {getFirestore} from "@firebase/firestore";
 import {getStorage} from "@firebase/storage";
 import {initializeApp} from "firebase/app";
 import {browserLocalPersistence, setPersistence} from "firebase/auth";
+import {DATABASE_URL} from "./constant";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAtLzmYYJw4DxglBKKcRPDWyl2cpEySD9I",
@@ -20,7 +21,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const firestore = getFirestore();
-const database = getDatabase();
+const database = getDatabase(undefined, DATABASE_URL);
 const storage = getStorage();
 const auth = getAuth();
 
