@@ -1,13 +1,16 @@
-import React, {useContext} from "react";
-import {useHistory} from "react-router-dom";
+import React, {useContext, useEffect} from "react";
+import {useHistory, useRouteMatch} from "react-router-dom";
 import {CreatorContext} from "../contexts/CreatorContext";
 import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
 import Renderer from "../components/Renderer";
-import {postPageData} from "../api/postPageData";
+import {putProjectData} from "../api/putPageData";
 
 const Previewer = () => {
   const {packageSiteInfo} = useContext(CreatorContext);
+  const {projectId} = useContext(CreatorContext);
   const history = useHistory();
+
+  console.log(projectId);
 
   return (
     <div className="w-full h-full relative">
@@ -36,7 +39,7 @@ const Previewer = () => {
         z-20"
       >
         <div
-          onClick={() => postPageData(packageSiteInfo(), 1, "Some new project")}
+          onClick={() => putProjectData(packageSiteInfo(), 1)}
           className="bg-blue-500 text-white font-semibold py-2 px-3 rounded w-full flex flex-row items-center justify-center"
         >
           <div>Deploy</div>

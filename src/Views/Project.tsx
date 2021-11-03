@@ -62,10 +62,10 @@ const Project = () => {
           {!isMax() ? (
             <Modal
               modal={<AddProjectModal />}
-              button={<AddProjectComponent width={width} />}
+              button={<AddProjectComponent componentHeight={componentHeight} />}
             />
           ) : (
-            <AddProjectComponent width={width} />
+            <AddProjectComponent componentHeight={componentHeight} />
           )}
         </div>
         {loadingData && <LoadingIndicator />}
@@ -108,13 +108,19 @@ const Project = () => {
               <div className="w-2/5 h-full flex flex-col items-center justify-center text-center">
                 <Link
                   className="bg-blue-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
-                  to={`page/${project.websiteId}`}
+                  to={{
+                    pathname: `/page/${project.websiteId}`,
+                    state: {websiteId: project.websiteId},
+                  }}
                 >
                   Checkout
                 </Link>
                 <Link
                   className="bg-blue-300 text-blue-600 py-2 px-3 rounded w-full mt-1 hover:shadow-md duration-200"
-                  to={`create/${project.websiteId}`}
+                  to={{
+                    pathname: `/create/${project.websiteId}`,
+                    state: {websiteId: project.websiteId},
+                  }}
                 >
                   Edit
                 </Link>
@@ -149,14 +155,11 @@ const Project = () => {
 
 export default Project;
 
-const AddProjectComponent = ({width}: {width: number}) => {
+const AddProjectComponent = ({componentHeight}: {componentHeight: any}) => {
   return (
     <div
       className="h-full p-2 w-full col-span-4 lg:col-span-2 flex items-center justify-center"
-      style={{
-        height:
-          width < 1024 ? widthResolver(width) / 2 : widthResolver(width) / 4,
-      }}
+      style={componentHeight}
     >
       <PlusIcon className="w-10 h-10 text-black" />
     </div>

@@ -3,12 +3,14 @@ import useWindowDimensions, {widthResolver} from "../helper";
 
 type CreatorContextType = {
   columns: number;
+  projectId: string;
   layout: Array<any>;
   creatorWidth: number;
   backgroundImage?: string;
   onAddComponent: () => void;
   packageSiteInfo: () => void;
   setLayout: (layout: any) => void;
+  setProjectId: (id: any) => void;
   updateColumns: (col: number) => void;
   onComponentDelete: (id: string) => void;
   setBackgroundImage: (img: string) => void;
@@ -18,8 +20,10 @@ type CreatorContextType = {
 export const CreatorContext = createContext<CreatorContextType>({
   layout: [],
   columns: 0,
+  projectId: "",
   creatorWidth: 0,
   setLayout: () => {},
+  setProjectId: () => {},
   updateColumns: () => {},
   onAddComponent: () => {},
   packageSiteInfo: () => {},
@@ -32,9 +36,10 @@ const CreatorRenderer = ({children}: any) => {
   const {width} = useWindowDimensions();
   const [layout, setLayout] = useState<any>(null);
   const [columns, setColumns] = useState<number>(4);
+  const [projectId, setProjectId] = useState<any>();
   const [colIndex, setColIndex] = useState<number>(1);
-  const [creatorWidth, _] = useState<number>(widthResolver(width));
   const [largestIndex, setLargestIndex] = useState<number>(0);
+  const [creatorWidth, _] = useState<number>(widthResolver(width));
   const [backgroundImage, setBackgroundImage] = useState<string>("");
 
   const updateColumns = (increaseBy: number) => {
@@ -142,8 +147,10 @@ const CreatorRenderer = ({children}: any) => {
         packageSiteInfo,
         onAddComponent,
         updateColumns,
+        setProjectId,
         creatorWidth,
         setLayout,
+        projectId,
         columns,
         layout,
       }}

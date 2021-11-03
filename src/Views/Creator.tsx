@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import Dropzone from "react-dropzone";
 import Text from "../components/Text";
 import Image from "../components/Image";
@@ -15,8 +15,20 @@ import {Disclosure} from "@headlessui/react";
 const Creator = () => {
   const {deflateEditor} = useContext(EditorContext);
   const history = useHistory();
-  const {columns, backgroundImage, layout, setLayout, creatorWidth} =
-    useContext(CreatorContext);
+  const match = useRouteMatch();
+
+  const {
+    layout,
+    columns,
+    setLayout,
+    creatorWidth,
+    setProjectId,
+    backgroundImage,
+  } = useContext(CreatorContext);
+
+  useEffect(() => {
+    setProjectId(match.params.id);
+  }, []);
 
   return (
     <div
@@ -174,7 +186,7 @@ const ChangeBackgroundImage = () => {
             </>
           )}
         </Disclosure>
-        <Link className="shadow-md" to={`${match.url}/preview`}>
+        <Link className="shadow-md" to={`/preview/${match.params.id}`}>
           <div className="bg-blue-500 text-white font-semibold py-2 px-1 rounded w-full flex flex-row items-center justify-center">
             <div>Next</div>
             <ChevronRightIcon className="w-5 h-5 mt-0.5 shadow" />

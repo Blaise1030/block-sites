@@ -21,10 +21,7 @@ const putProjectData = async (pageData: any, projectId: number) => {
       })
     );
     const db = getDatabase(undefined, DATABASE_URL);
-    await update(ref(db, `/${PAGE}/${projectId}`), {
-      modifiedTime: currentTime,
-      pageData,
-    });
+    await set(ref(db, `/${PAGE}/${projectId}`), pageData);
   } catch (error) {
     console.log(error);
   }

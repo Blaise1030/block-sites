@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {ReactElement, useContext, useEffect} from "react";
 import CreatorRenderer from "./contexts/CreatorContext";
 import EditorRenderer from "./contexts/EditorContext";
 import Creator from "./views/Creator";
@@ -27,10 +27,27 @@ const App = () => {
     <div className="h-screen w-screen relative overflow-x-hidden">
       <Router>
         <Switch>
+          <Route path="/page/:id" component={Page} />
           <Authentication>
-            <Route path="/login" component={Login} />
-            <Route path="/page/:id" component={Page} />
-            <AuthenticationRoutes />
+            <CreatorRenderer>
+              <EditorRenderer>
+                <RouteGaurds path="/preview/:id" component={<Previewer />} />
+                <RouteGaurds path="/create/:id" component={<Creator />} />
+                <Route path="/login" component={Login} />
+                <Route
+                  path="/home"
+                  render={() => (
+                    <DefaultLayout>
+                      <Switch>
+                        <RouteGaurds path="" component={<Project />} />
+                        <RouteGaurds path="profile" component={<Profile />} />
+                        <RouteGaurds path="main" component={<Home />} />
+                      </Switch>
+                    </DefaultLayout>
+                  )}
+                />
+              </EditorRenderer>
+            </CreatorRenderer>
           </Authentication>
         </Switch>
       </Router>
@@ -38,55 +55,22 @@ const App = () => {
   );
 };
 
-const AuthenticationRoutes = () => {
+const RouteGaurds = ({
+  component,
+  exact = true,
+  path,
+}: {
+  component: ReactElement;
+  exact?: boolean;
+  path: string;
+}) => {
   const {userData} = useContext(AuthenticationContext);
-
   return (
-    <Switch>
-      <Route
-        render={() => (userData ? <HomeRoutes /> : <Redirect to={"/login"} />)}
-        path="/home"
-      />
-      <Route
-        path="/create/:id"
-        render={() =>
-          userData ? <CreateRoutes /> : <Redirect to={"/login"} />
-        }
-      />
-    </Switch>
-  );
-};
-
-const HomeRoutes = () => {
-  let match = useRouteMatch();
-  return (
-    <DefaultLayout>
-      <Switch>
-        <Route path={`${match.url}/main`} component={Home} />
-        <Route path={`${match.url}/profile`} component={Profile} />
-        <Route path={`${match.url}`} component={Project} />
-      </Switch>
-    </DefaultLayout>
-  );
-};
-
-const CreateRoutes = () => {
-  let match = useRouteMatch();
-  return (
-    <CreatorRenderer>
-      <Switch>
-        <Route path={`${match.url}/preview`} component={Previewer} />
-        <Route path={`${match.url}`} component={CreatorContexts} />
-      </Switch>
-    </CreatorRenderer>
-  );
-};
-
-const CreatorContexts = () => {
-  return (
-    <EditorRenderer>
-      <Creator />
-    </EditorRenderer>
+    <Route
+      render={() => (userData ? component : <Redirect to={"/login"} />)}
+      path={path}
+      exact={exact}
+    />
   );
 };
 
