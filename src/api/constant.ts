@@ -1,7 +1,5 @@
-export const PAGE = "pages";
-export const DATABASE_URL =
-  "https://block-site-acb64-default-rtdb.asia-southeast1.firebasedatabase.app/";
-
 export const TEXT = "text";
+export const PAGE = "pages";
 export const IMAGE = "image";
 export const EMPTY = "empty";
+export const DATABASE_URL = import.meta.env.VITE_APP_DATABASE;

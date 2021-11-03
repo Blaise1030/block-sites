@@ -21,7 +21,9 @@ const uploadImageFromBlob = async (fileName: string, blobUrl: string) => {
       const bucket = res.ref.bucket;
       const path = res.ref.fullPath;
       resolve(
-        `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${path}?alt=media&token=e984961b-1ce8-4771-a4b8-a4d2f0a92ec8`
+        `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/${path}?alt=media&token=${
+          import.meta.env.VITE_APP_STORAGE_TOKEN
+        }`
       );
     };
   });
