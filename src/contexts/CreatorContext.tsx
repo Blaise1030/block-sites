@@ -18,7 +18,6 @@ type CreatorContextType = {
   setLargestIndex: (num: number) => void;
   onComponentDelete: (id: string) => void;
   setBackgroundImage: (img: string) => void;
-
   onComponentUpdate: (data: any, id: string) => void;
 };
 

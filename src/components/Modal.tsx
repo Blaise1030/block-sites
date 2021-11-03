@@ -5,9 +5,16 @@ import {Fragment, ReactElement, useState} from "react";
 type ModalPropsType = {
   button: ReactElement;
   modal: ReactElement;
+  onBlur?: boolean;
+  showWhiteBackground?: boolean;
 };
 
-const Modal = ({button, modal}: ModalPropsType) => {
+const Modal = ({
+  button,
+  modal,
+  onBlur = true,
+  showWhiteBackground = false,
+}: ModalPropsType) => {
   let [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => setIsOpen(false);
@@ -19,8 +26,12 @@ const Modal = ({button, modal}: ModalPropsType) => {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          className={`fixed inset-0 z-10 overflow-y-auto ${
+            showWhiteBackground ? "bg-white bg-opacity-70" : ""
+          }`}
+          onClose={() => {
+            if (onBlur) closeModal();
+          }}
         >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child

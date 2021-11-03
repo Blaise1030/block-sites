@@ -37,6 +37,7 @@ const Creator = () => {
   } = useContext(CreatorContext);
 
   useEffect(() => {
+    clearCreator();
     getWebsiteData();
   }, []);
 
