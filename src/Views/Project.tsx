@@ -7,7 +7,7 @@ import useWindowDimensions, {widthResolver} from "../helper";
 import {AuthenticationContext} from "../contexts/AuthContext";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {Link, useHistory, useRouteMatch} from "react-router-dom";
-import {firebaseTimestampConverter} from "../helper/FirebaseTimestampConverter";
+import {firebaseTimestampConverter} from "../helper/firebaseTimestampConverter";
 
 const MAX_PROJECTS = 3;
 

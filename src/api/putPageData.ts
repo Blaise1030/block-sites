@@ -3,7 +3,7 @@ import {IMAGE, PAGE} from "./constant";
 import uploadImageFromBlob from "./uploadImageFromBlob";
 import {database} from "./firebase";
 
-const putProjectData = async (pageData: any, projectId: number) => {
+const putProjectData = async (pageData: any, projectId: string) => {
   if (pageData.backgroundImage.length > 0)
     pageData.backgroundImage = await uploadImageFromBlob(
       `${projectId}background`,

@@ -15,10 +15,10 @@ import getProjectData from "../api/getPageData";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 const Creator = () => {
-  const {deflateEditor} = useContext(EditorContext);
-  const [loading, setIsLoading] = useState(true);
-  const match = useRouteMatch();
   const history = useHistory();
+  const [loading, setIsLoading] = useState(true);
+  const {deflateEditor} = useContext(EditorContext);
+  const match: {params: {id: string}} = useRouteMatch() as any;
 
   const {
     layout,
@@ -151,8 +151,7 @@ const ChangeBackgroundImage = () => {
     backgroundImage,
     setBackgroundImage,
   } = useContext(CreatorContext);
-
-  const match = useRouteMatch();
+  const match: {params: {id: string}} = useRouteMatch() as any;
   const uploadFiles = (file: File) => {
     const url = URL.createObjectURL(file);
     setBackgroundImage(url);

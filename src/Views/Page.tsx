@@ -5,7 +5,7 @@ import Renderer, {RendererPropType} from "../components/Renderer";
 
 const Page = () => {
   const [pageData, setPageData] = useState<RendererPropType>();
-  const match = useRouteMatch();
+  const match: {params: {id: string}} = useRouteMatch() as any;
   const history = useHistory();
 
   useEffect(() => {

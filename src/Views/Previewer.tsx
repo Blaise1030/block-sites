@@ -10,7 +10,7 @@ const Previewer = () => {
   const {packageSiteInfo} = useContext(CreatorContext);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const match = useRouteMatch();
+  const match: {params: {id: string}} = useRouteMatch() as any;
 
   const updatePage = async () => {
     setLoading(true);
@@ -76,7 +76,7 @@ const Previewer = () => {
       <Modal
         onBlur={false}
         showWhiteBackground={true}
-        modal={<AddProjectModal id={match.params.id} />}
+        modal={<AddProjectModal />}
         button={
           <div
             className="               
