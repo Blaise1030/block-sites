@@ -17,11 +17,21 @@ type AuthContextType = {
   loadingData: boolean;
 };
 
-export const AuthenticationContext = createContext<AuthContextType>({});
+export const AuthenticationContext = createContext<AuthContextType>({
+  logout: () => {},
+  login: () => {},
+  projects: [],
+  loadingData: false,
+});
 
 const Authentication = ({children}: any) => {
   const history = useHistory();
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<{
+    email: string;
+    name: string;
+    img: string;
+    id: string;
+  }>();
   const [projects, setProjects] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
 
@@ -49,7 +59,6 @@ const Authentication = ({children}: any) => {
   }, [userData]);
 
   const login = async () => {
-    console.log("hello");
     try {
       const res = await signInWithPopup(auth, new GoogleAuthProvider());
       const user = res.user;
@@ -59,7 +68,6 @@ const Authentication = ({children}: any) => {
         img: user?.photoURL,
         email: user.email,
       } as any);
-      console.log("hello");
       history.push("/home");
     } catch (e) {
       console.log(e);
