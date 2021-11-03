@@ -21,7 +21,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig as any);
 
 const firestore = getFirestore();
-const database = getDatabase(undefined, DATABASE_URL);
+const database = getDatabase(undefined, DATABASE_URL as any);
 const storage = getStorage();
 const auth = getAuth();
 
