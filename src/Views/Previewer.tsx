@@ -58,11 +58,13 @@ const Previewer = () => {
     <div className="w-full h-full relative">
       <div
         className="               
-        cursor-pointer                
-        left-3        
+        hover:shadow-md
+        duration-200     
+        cursor-pointer
+        left-8      
         fixed
-        top-3                              
-        z-10"
+        top-8                                     
+        z-20"
       >
         <div
           className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"

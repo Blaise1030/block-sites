@@ -70,11 +70,13 @@ const Creator = () => {
     >
       {loading && <LoadingIndicator />}
       <div
-        className="               
-        cursor-pointer                
-        left-3        
+        className="                       
+        hover:shadow-md
+        duration-200     
+        cursor-pointer
+        left-8      
         fixed
-        top-3                                      
+        top-8                                     
         z-20"
       >
         <div
