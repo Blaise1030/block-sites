@@ -18,6 +18,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import LoadingIndicator from "./components/LoadingIndicator";
 
 const App = () => {
   useEffect(() => {
@@ -31,18 +32,19 @@ const App = () => {
             path="/page/:id"
             component={() => {
               return (
-                <Suspense fallback={<div>Loading</div>}>
+                <Suspense fallback={<LoadingIndicator />}>
                   <Page />
                 </Suspense>
               );
             }}
           />
+
           <Authentication>
             <Route
               path="/login"
               component={() => {
                 return (
-                  <Suspense fallback={<div>Loading</div>}>
+                  <Suspense fallback={<LoadingIndicator />}>
                     <Login />
                   </Suspense>
                 );
@@ -52,7 +54,7 @@ const App = () => {
               path="/home/main"
               component={
                 <DefaultLayout>
-                  <Suspense fallback={<div>Loading</div>}>
+                  <Suspense fallback={<LoadingIndicator />}>
                     <Home />
                   </Suspense>
                 </DefaultLayout>
@@ -62,7 +64,7 @@ const App = () => {
               path="/home/profile"
               component={
                 <DefaultLayout>
-                  <Suspense fallback={<div>Loading</div>}>
+                  <Suspense fallback={<LoadingIndicator />}>
                     <Profile />
                   </Suspense>
                 </DefaultLayout>
@@ -72,7 +74,7 @@ const App = () => {
               path="/home"
               component={
                 <DefaultLayout>
-                  <Suspense fallback={<div>Loading</div>}>
+                  <Suspense fallback={<LoadingIndicator />}>
                     <Project />
                   </Suspense>
                 </DefaultLayout>
@@ -82,7 +84,7 @@ const App = () => {
               <RouteGaurds
                 path="/preview/:id"
                 component={
-                  <Suspense fallback={<div>Loading</div>}>
+                  <Suspense fallback={<LoadingIndicator />}>
                     <Previewer />
                   </Suspense>
                 }
@@ -91,13 +93,14 @@ const App = () => {
                 <RouteGaurds
                   path="/create/:id"
                   component={
-                    <Suspense fallback={<div>Loading</div>}>
+                    <Suspense fallback={<LoadingIndicator />}>
                       <Creator />
                     </Suspense>
                   }
                 />
               </EditorRenderer>
             </CreatorRenderer>
+            <Route path="" children={<Redirect to={"/login"} />} />
           </Authentication>
         </Switch>
       </Router>
