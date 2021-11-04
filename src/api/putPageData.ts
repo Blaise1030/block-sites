@@ -1,5 +1,5 @@
 import {ref, set} from "firebase/database";
-import {IMAGE, PAGE} from "./constant";
+import {IMAGE, PAGE, TEXT} from "./constant";
 import uploadImageFromBlob from "./uploadImageFromBlob";
 import {database} from "./firebase";
 
@@ -13,7 +13,10 @@ const putProjectData = async (pageData: any, projectId: string) => {
   pageData.layout = await Promise.all(
     pageData.layout.map(async (o: any) => {
       Object.keys(o).forEach((key) => o[key] === undefined && delete o[key]);
-      if (o?.data?.type === IMAGE && o?.data?.new) {
+      if (
+        (o?.data?.type === IMAGE && o?.data?.new) ||
+        (o?.data?.type === TEXT && o?.data?.src?.length > 1)
+      ) {
         o.data.new = false;
         o.data.src = await uploadImageFromBlob(
           `${o.i}${o.x}${o.y}${projectId}`,
