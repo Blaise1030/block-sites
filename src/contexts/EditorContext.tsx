@@ -45,7 +45,7 @@ const EditorRenderer = ({children}: any) => {
             leaveFrom="-translate-x-10"
             leaveTo="-translate-x-full"
           >
-            <div className="shadow-lg border-2 border-black bg-white p-2 rounded overflow-x-hidden">
+            <div className="shadow-lg border-2 border-black bg-white p-2 rounded-md overflow-x-hidden">
               {editorComponent}
             </div>
           </Transition>

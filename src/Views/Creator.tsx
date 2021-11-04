@@ -173,7 +173,7 @@ const ChangeBackgroundImage = () => {
 
   return (
     <div className="fixed bottom-8 right-8 select-none w-300 z-20">
-      <div className="shadow-md border bg-white border-black rounded relative">
+      <div className="shadow-lg border bg-white border-black rounded-md relative">
         {loading && <LoadingIndicator />}
         <div className="p-4">
           <Disclosure>

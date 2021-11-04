@@ -2,6 +2,7 @@ import {ref, set} from "firebase/database";
 import {IMAGE, PAGE, TEXT} from "./constant";
 import uploadImageFromBlob from "./uploadImageFromBlob";
 import {database} from "./firebase";
+import putLastEdited from "./putLastEditedDate";
 
 const putProjectData = async (pageData: any, projectId: string) => {
   if (pageData.backgroundImage.length > 0)
@@ -27,6 +28,7 @@ const putProjectData = async (pageData: any, projectId: string) => {
     })
   );
   await set(ref(database, `/${PAGE}/${projectId}`), pageData);
+  await putLastEdited(projectId);
 };
 
 export {putProjectData};
