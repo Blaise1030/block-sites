@@ -1,12 +1,17 @@
 import React, {createContext, useEffect, useState} from "react";
 import {auth} from "../api/firebase";
-import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  GithubAuthProvider,
+} from "firebase/auth";
 import {useHistory} from "react-router";
 import getUserProject from "../api/getUserProject";
 
 type AuthContextType = {
   logout: () => void;
-  login: () => void;
+  login: (method: "Google" | "Facebook" | "Github") => void;
   userData?: {
     email: string;
     name: string;
@@ -58,9 +63,15 @@ const Authentication = ({children}: any) => {
     }
   }, [userData]);
 
-  const login = async () => {
+  const login = async (methods: "Google" | "Facebook" | "Github") => {
+    const options = {
+      Google: new GoogleAuthProvider(),
+      Facebook: new FacebookAuthProvider(),
+      Github: new GithubAuthProvider(),
+    };
+
     try {
-      const res = await signInWithPopup(auth, new GoogleAuthProvider());
+      const res = await signInWithPopup(auth, options[methods]);
       const user = res.user;
       setUserData({
         id: user.uid,
