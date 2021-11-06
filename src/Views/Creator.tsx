@@ -80,7 +80,7 @@ const Creator = () => {
         z-20"
       >
         <div
-          className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
+          className="bg-black border border-gray-200 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
           onClick={() => {
             clearCreator();
             history.goBack();
@@ -219,13 +219,13 @@ const ChangeBackgroundImage = () => {
                     />
                   </div>
                   <div
-                    className="rounded cursor-pointer p-2 text-center border border-green-500 text-green-500 hover:bg-green-500 font-bold hover:text-white"
+                    className="rounded cursor-pointer p-2 text-center border border-green-500 text-green-500 hover:bg-green-500 font-bold hover:text-white mb-3"
                     onClick={onAddComponent}
                   >
                     Add Tile
                   </div>
                 </Disclosure.Panel>
-                <Disclosure.Button className="w-full my-3 hover:bg-blue-200 bg-blue-100 p-2 rounded">
+                <Disclosure.Button className="w-full mb-3 hover:bg-gray-400 bg-gray-300 p-2.5 rounded">
                   {open ? "Hide Settings" : "Settings"}
                 </Disclosure.Button>
               </>
@@ -236,8 +236,8 @@ const ChangeBackgroundImage = () => {
             onClick={updatePage}
             className="
               border 
-            border-blue-500  
-            text-blue-500               
+              border-black
+              text-black
               font-semibold 
               py-2 px-1 rounded 
               w-full flex 
@@ -253,7 +253,7 @@ const ChangeBackgroundImage = () => {
             <div>Save Changes</div>
           </div>
           <Link className="shadow-md" to={`/preview/${match.params.id}`}>
-            <div className="bg-blue-500 text-white font-semibold py-2 px-1 rounded w-full flex flex-row items-center justify-center">
+            <div className="bg-black text-white font-semibold py-2 px-1 rounded w-full flex flex-row items-center justify-center">
               <div>Next</div>
               <ChevronRightIcon className="w-5 h-5 mt-0.5 shadow" />
             </div>

@@ -391,8 +391,8 @@ const TextEditor = ({id}: {id: string}) => {
                 <button
                   className={`${
                     selected
-                      ? "bg-blue-500 text-white rounded shadow"
-                      : "bg-white text-black hover:bg-blue-100 duration-200"
+                      ? "bg-black text-white rounded shadow"
+                      : "bg-white text-black hover:bg-gray-100 duration-200"
                   } py-1 px-2`}
                 >
                   {label}

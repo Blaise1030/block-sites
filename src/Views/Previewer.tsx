@@ -44,12 +44,14 @@ const Previewer = () => {
             ? "Juz kidding, we are just saving your data in the database :). Wait."
             : `Deployed to ${match.params.id}`}
         </div>
-        <div
-          onClick={() => history.push(`/page/${match.params.id}`)}
-          className="w-full bg-blue-400 text-white p-3 rounded mt-2 cursor-pointer hover:bg-blue-300 duration-200"
-        >
-          Check It Out
-        </div>
+        {!loading && (
+          <div
+            onClick={() => history.push(`/page/${match.params.id}`)}
+            className="w-full bg-black text-white p-3 rounded mt-2 cursor-pointer hover:bg-gray-600 duration-200"
+          >
+            Check It Out
+          </div>
+        )}
       </div>
     );
   };
@@ -67,7 +69,7 @@ const Previewer = () => {
         z-20"
       >
         <div
-          className="bg-blue-500 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
+          className="bg-black border border-gray-200 text-white font-semibold py-1 pl-1 pr-2 rounded w-full flex flex-row items-center justify-center"
           onClick={() => history.goBack()}
         >
           <ChevronLeftIcon className="w-5 h-5" />
@@ -90,7 +92,7 @@ const Previewer = () => {
           >
             <div
               onClick={updatePage}
-              className="bg-blue-500 text-white font-semibold py-2 px-3 rounded w-full flex flex-row items-center justify-center"
+              className="bg-black border border-gray-100 text-white font-semibold py-2 px-3 rounded w-full flex flex-row items-center justify-center"
             >
               <div>Deploy</div>
             </div>

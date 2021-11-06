@@ -65,18 +65,19 @@ const Login = () => {
           </div>
 
           <div className="px-2 lg:ml-8 lg:mt-0 mt-8">
-            <div className="flex flex-col justify-center h-full">
+            <div className="flex flex-col justify-evenly h-full">
               {loginMethods.map(({methods, img}) => (
                 <div
                   key={methods}
                   className="
-                border
-                border-black                 
-                px-4 py-3 flex 
-                duration-200 mb-3
-                flex-row items-center 
-                justify-between rounded 
-                cursor-pointer hover:shadow-md"
+                  mb-2
+                  border
+                  border-black                 
+                  px-5 py-4 flex 
+                  duration-200
+                  flex-row items-center 
+                  justify-between rounded 
+                  cursor-pointer hover:shadow-md"
                   onClick={() =>
                     login(methods as "Github" | "Facebook" | "Google")
                   }
@@ -108,7 +109,7 @@ const LoginForm = () => {
     return (
       <>
         {message && (
-          <div className="absolute text-xs -mt-2 ml-2 bg-white px-1 text-red-600">
+          <div className="absolute text-xs -mt-2 ml-2  px-1 text-red-600">
             {message}
           </div>
         )}
