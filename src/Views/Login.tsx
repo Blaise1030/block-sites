@@ -1,9 +1,13 @@
-import {useContext} from "react";
-import {AuthenticationContext} from "../contexts/AuthContext";
+import React, {useContext} from "react";
 import {useForm} from "react-hook-form";
+import {AuthenticationContext} from "../contexts/AuthContext";
+import LoadingIndicator from "../components/LoadingIndicator";
+import {Transition} from "@headlessui/react";
 
 const Login = () => {
-  const {login} = useContext(AuthenticationContext);
+  const {login, loadingData, errorMessage, showErrorMessage} = useContext(
+    AuthenticationContext
+  );
 
   const loginMethods = [
     {
@@ -21,18 +25,34 @@ const Login = () => {
   ];
 
   return (
-    <div className="w-full h-full flex items-center justify-center flex-col">
-      <div className="p-4 text-center lg:ml-8 font-bold text-2xl flex flex-col items-center">
+    <div className="w-full h-full flex items-center justify-center flex-col select-none relative">
+      <div className="absolute top-5 w-full flex flex-row justify-center">
+        <Transition
+          show={showErrorMessage}
+          enter="transition-opacity duration-75"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="bg-red-200 p-2 text-red-600 rounded border border-red-500">
+            {errorMessage}
+          </div>
+        </Transition>
+      </div>
+
+      <div className="flex flex-col w-full items-center">
         <img
           src="https://img.icons8.com/ios/100/000000/black-and-white.png"
           className="w-10 h-10 mb-3"
         />
-        <div>Log Into YAWB</div>
-      </div>
-      <div className="flex lg:flex-row flex-col">
-        <LoginForm />
-        <div
-          className="
+        <div className="font-bold">Log Into YAWB</div>
+        <div className="flex lg:flex-row flex-col relative mr-6 p-5">
+          {loadingData && <LoadingIndicator />}
+          <LoginForm />
+          <div
+            className="
           lg:flex-col 
           lg:border-l 
           border-t flex
@@ -40,16 +60,16 @@ const Login = () => {
           border-black                                        
           flex-row items-center 
           "
-        >
-          <div className="bg-white absolute text-black p-2">OR</div>
-        </div>
+          >
+            <div className="bg-white absolute text-black p-2">OR</div>
+          </div>
 
-        <div className="px-2 lg:ml-8 lg:mt-0 mt-8">
-          <div className="flex flex-col justify-evenly h-full">
-            {loginMethods.map(({methods, img}) => (
-              <div
-                key={methods}
-                className="
+          <div className="px-2 lg:ml-8 lg:mt-0 mt-8">
+            <div className="flex flex-col justify-evenly h-full">
+              {loginMethods.map(({methods, img}) => (
+                <div
+                  key={methods}
+                  className="
                 border
                 border-black                 
                 px-4 py-3 flex 
@@ -57,25 +77,27 @@ const Login = () => {
                 flex-row items-center 
                 justify-between rounded 
                 cursor-pointer hover:shadow-md"
-                onClick={() =>
-                  login(methods as "Github" | "Facebook" | "Google")
-                }
-              >
-                <div>Continue With {methods}</div>
-                <img className="w-6 h-6 ml-4" src={img} />
-              </div>
-            ))}
+                  onClick={() =>
+                    login(methods as "Github" | "Facebook" | "Google")
+                  }
+                >
+                  <div>Continue With {methods}</div>
+                  <img className="w-6 h-6 ml-4" src={img} />
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+        <div className="hover:underline cursor-pointer">
+          Sign up with Email ?
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
-
 const LoginForm = () => {
-  const {login} = useContext(AuthenticationContext);
+  const {loginWithEmail} = useContext(AuthenticationContext);
   const {
     register,
     handleSubmit,
@@ -84,10 +106,7 @@ const LoginForm = () => {
     criteriaMode: "all",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
+  const onSubmit = (data: any) => loginWithEmail(data.email, data.password);
   const ErrorMessage = ({message}) => {
     return (
       <>
@@ -102,7 +121,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className="flex flex-col lg:p-4 p-2 w-300 lg:mr-8 lg:mb-0  mb-8"
+      className="flex flex-col lg:p-2 p-2 w-300 lg:mr-8 lg:mb-0  mb-8"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="w-full relative">
@@ -122,7 +141,7 @@ const LoginForm = () => {
             required: true,
             pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
           })}
-          className={`p-3 border rounded outline-none text-md w-full ${
+          className={`p-3 border-b rounded-t focus:bg-gray-100 outline-none text-md w-full ${
             errors.email ? "border-red-600" : "border-black"
           }`}
         />
@@ -142,7 +161,7 @@ const LoginForm = () => {
           placeholder="Password"
           type="password"
           {...register("password", {required: true, minLength: 8})}
-          className={`border-b p-3 my-2 border-gray outline-none w-full ${
+          className={`border-b rounded-t focus:bg-gray-100 p-3 my-2 border-gray outline-none w-full ${
             errors.password ? "border-red-600" : "border-black"
           }`}
         />
@@ -165,3 +184,5 @@ const LoginForm = () => {
     </form>
   );
 };
+
+export default Login;
