@@ -48,7 +48,7 @@ const Login = () => {
           className="w-10 h-10 mb-3"
         />
         <div className="font-bold">Log Into YAWB</div>
-        <div className="flex lg:flex-row flex-col relative mr-6 p-5">
+        <div className="flex lg:flex-row flex-col relative lg:mr-6 p-5">
           {loadingData && <LoadingIndicator />}
           <LoginForm />
           <div
@@ -65,7 +65,7 @@ const Login = () => {
           </div>
 
           <div className="px-2 lg:ml-8 lg:mt-0 mt-8">
-            <div className="flex flex-col justify-evenly h-full">
+            <div className="flex flex-col justify-center h-full">
               {loginMethods.map(({methods, img}) => (
                 <div
                   key={methods}
@@ -73,7 +73,7 @@ const Login = () => {
                 border
                 border-black                 
                 px-4 py-3 flex 
-                duration-200 mb-1
+                duration-200 mb-3
                 flex-row items-center 
                 justify-between rounded 
                 cursor-pointer hover:shadow-md"
