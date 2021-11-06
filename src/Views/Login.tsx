@@ -88,9 +88,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className="hover:underline cursor-pointer">
-          Sign up with Email ?
-        </div>
       </div>
     </div>
   );
@@ -181,6 +178,9 @@ const LoginForm = () => {
       >
         Login
       </button>
+      <div className="hover:underline cursor-pointer text-xs duration-300 w-full text-center pt-4">
+        Sign up with Email ?
+      </div>
     </form>
   );
 };
