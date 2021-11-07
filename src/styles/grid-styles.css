@@ -22,8 +22,6 @@
   transition: border-radius 200ms ease;
   z-index: 3;
   opacity: 1;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  will-change: transform;
 }
 
 .react-grid-item.dropping {
