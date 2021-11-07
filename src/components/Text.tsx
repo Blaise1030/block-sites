@@ -69,15 +69,16 @@ const Text = React.memo(
         onMouseLeave={() => setOnDoubleClick(false)}
         onDoubleClick={inflateEditor}
         className={`
-            border            
+            border
             flex
             w-full
             h-full
             flex-col
             border-box
+            border-black 
             ${textStyle}
             ${textVertical}
-            ${textAlignment}
+            ${textAlignment}            
         `}
       >
         {!onDoubleClick && (

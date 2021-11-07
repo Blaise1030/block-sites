@@ -92,37 +92,43 @@ const Creator = () => {
       </div>
       <ChangeBackgroundImage />
       <div
-        className="mx-auto relative border rounded"
-        style={{width: creatorWidth}}
+        className="mx-auto relative rounded border-black border"
+        style={{width: creatorWidth + 4}}
       >
-        {layout && (
-          <ReactGridLayout
-            rowHeight={creatorWidth / columns}
-            width={creatorWidth}
-            className="layout"
-            margin={[0, 0]}
-            layout={layout}
-            cols={columns}
-            onLayoutChange={(a) =>
-              setLayout(
-                a.map((data, index) => ({
-                  ...layout[index],
-                  ...data,
-                }))
-              )
-            }
-          >
-            {layout?.map(({i, data}: any) => (
-              <div
-                className="border border-transparent cursor-pointer box-border relative"
-                key={i}
-              >
-                <GridTile onClick={() => deflateEditor(i)} data={data} id={i} />
-                <div className=" absolute bottom-2 right-2 w-2 h-2 rounded-full bg-gray-800 shadow-lg" />
-              </div>
-            ))}
-          </ReactGridLayout>
-        )}
+        <div className="border-white border">
+          {layout && (
+            <ReactGridLayout
+              rowHeight={creatorWidth / columns}
+              width={creatorWidth}
+              className="layout"
+              margin={[0, 0]}
+              layout={layout}
+              cols={columns}
+              onLayoutChange={(a) =>
+                setLayout(
+                  a.map((data, index) => ({
+                    ...layout[index],
+                    ...data,
+                  }))
+                )
+              }
+            >
+              {layout?.map(({i, data}: any) => (
+                <div
+                  className="border border-white border-transparent cursor-pointer box-border relative"
+                  key={i}
+                >
+                  <GridTile
+                    onClick={() => deflateEditor(i)}
+                    data={data}
+                    id={i}
+                  />
+                  <div className=" absolute bottom-2 right-2 w-2 h-2 rounded-full bg-gray-800 shadow-lg" />
+                </div>
+              ))}
+            </ReactGridLayout>
+          )}
+        </div>
       </div>
     </div>
   );

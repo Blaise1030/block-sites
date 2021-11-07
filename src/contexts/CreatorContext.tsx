@@ -116,7 +116,7 @@ const CreatorRenderer = ({children}: any) => {
         w: 1,
         h: 1,
         y: Infinity,
-        resizeHandles: ["se"],
+        resizeHandles: ["se", "n", "s", "e", "w"],
         i: `${largestIndex + 1}`,
         x: layout.length % columns,
       })
@@ -136,7 +136,7 @@ const CreatorRenderer = ({children}: any) => {
               type: "empty",
               creatorWidth,
             },
-            resizeHandles: ["se"],
+            resizeHandles: ["se", "n", "s", "e", "w"],
             i: `${i}`,
             x: i % columns,
             w: 1,

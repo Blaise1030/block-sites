@@ -107,7 +107,7 @@ const Project = () => {
             >
               <div className="w-2/5 h-full flex flex-col items-center justify-center text-center">
                 <Link
-                  className="bg-gray-500 text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
+                  className="bg-black text-white py-2 px-3 rounded w-full hover:shadow-md duration-200"
                   to={{
                     pathname: `/page/${project.websiteId}`,
                     state: {websiteId: project.websiteId},
@@ -196,7 +196,7 @@ const AddProjectModal = ({closeModal}: any) => {
       />
       <div
         onClick={createNewProject}
-        className="ml-auto bg-gray-500 text-white shadow py-2 px-4 rounded mt-2 w-min cursor-pointer hover:shadow-lg duration-200"
+        className="ml-auto bg-black text-white shadow py-2 px-4 rounded mt-2 w-min cursor-pointer hover:shadow-lg duration-200"
       >
         Start
       </div>

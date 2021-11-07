@@ -11,9 +11,9 @@ const Empty = ({id}: {id: string}) => {
   return (
     <div
       onDoubleClick={inflateEditor}
-      className="border-4 w-full h-full backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 flex flex-col items-center justify-center"
+      className="border-black border w-full h-full backdrop-filter backdrop-blur-lg bg-white bg-opacity-30 flex flex-col items-center justify-center"
     >
-      <PlusIcon className="w-12 h-12 text-gray-300" />
+      <PlusIcon className="w-12 h-12 text-black" />
     </div>
   );
 };
