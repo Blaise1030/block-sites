@@ -9,6 +9,7 @@ const Creator = React.lazy(() => import("../src/views/Creator"));
 const Previewer = React.lazy(() => import("../src/views/Previewer"));
 const ProjectDetails = React.lazy(() => import("../src/views/ProjectDetails"));
 import LoadingIndicator from "./components/LoadingIndicator";
+import Notification from "./contexts/NotifContext";
 import initializeFirebase from "./api/firebase";
 import DefaultLayout from "./layout/DefaultLayout";
 import EditorRenderer from "./contexts/EditorContext";
@@ -28,94 +29,96 @@ const App = () => {
   return (
     <div className="h-screen w-screen relative overflow-hidden">
       <Router>
-        <Switch>
-          <Route
-            path="/page/:id"
-            component={() => {
-              return (
-                <Suspense fallback={<LoadingIndicator />}>
-                  <Page />
-                </Suspense>
-              );
-            }}
-          />
-
-          <Route
-            path="/project-details/:id"
-            component={() => (
-              <DefaultLayout>
-                <Suspense fallback={<LoadingIndicator />}>
-                  <ProjectDetails />
-                </Suspense>
-              </DefaultLayout>
-            )}
-          />
-
-          <Authentication>
+        <Notification>
+          <Switch>
             <Route
-              path="/login"
+              path="/page/:id"
               component={() => {
                 return (
                   <Suspense fallback={<LoadingIndicator />}>
-                    <Login />
+                    <Page />
                   </Suspense>
                 );
               }}
             />
-            <RouteGaurds
-              path="/home/main"
-              component={
+
+            <Route
+              path="/project-details/:id"
+              component={() => (
                 <DefaultLayout>
                   <Suspense fallback={<LoadingIndicator />}>
-                    <Home />
+                    <ProjectDetails />
                   </Suspense>
                 </DefaultLayout>
-              }
-            />
-            <RouteGaurds
-              path="/home/profile"
-              component={
-                <DefaultLayout>
-                  <Suspense fallback={<LoadingIndicator />}>
-                    <Profile />
-                  </Suspense>
-                </DefaultLayout>
-              }
-            />
-            <RouteGaurds
-              path="/home"
-              component={
-                <DefaultLayout>
-                  <Suspense fallback={<LoadingIndicator />}>
-                    <Project />
-                  </Suspense>
-                </DefaultLayout>
-              }
+              )}
             />
 
-            <CreatorRenderer>
+            <Authentication>
+              <Route
+                path="/login"
+                component={() => {
+                  return (
+                    <Suspense fallback={<LoadingIndicator />}>
+                      <Login />
+                    </Suspense>
+                  );
+                }}
+              />
               <RouteGaurds
-                path="/preview/:id"
+                path="/home/main"
                 component={
-                  <Suspense fallback={<LoadingIndicator />}>
-                    <Previewer />
-                  </Suspense>
+                  <DefaultLayout>
+                    <Suspense fallback={<LoadingIndicator />}>
+                      <Home />
+                    </Suspense>
+                  </DefaultLayout>
                 }
               />
-              <EditorRenderer>
+              <RouteGaurds
+                path="/home/profile"
+                component={
+                  <DefaultLayout>
+                    <Suspense fallback={<LoadingIndicator />}>
+                      <Profile />
+                    </Suspense>
+                  </DefaultLayout>
+                }
+              />
+              <RouteGaurds
+                path="/home"
+                component={
+                  <DefaultLayout>
+                    <Suspense fallback={<LoadingIndicator />}>
+                      <Project />
+                    </Suspense>
+                  </DefaultLayout>
+                }
+              />
+
+              <CreatorRenderer>
                 <RouteGaurds
-                  path="/create/:id"
+                  path="/preview/:id"
                   component={
                     <Suspense fallback={<LoadingIndicator />}>
-                      <Creator />
+                      <Previewer />
                     </Suspense>
                   }
                 />
-              </EditorRenderer>
-            </CreatorRenderer>
-            <Route path="" children={<Redirect to={"/login"} />} />
-          </Authentication>
-        </Switch>
+                <EditorRenderer>
+                  <RouteGaurds
+                    path="/create/:id"
+                    component={
+                      <Suspense fallback={<LoadingIndicator />}>
+                        <Creator />
+                      </Suspense>
+                    }
+                  />
+                </EditorRenderer>
+              </CreatorRenderer>
+              <Route path="" children={<Redirect to={"/login"} />} />
+            </Authentication>
+          </Switch>
+        </Notification>
       </Router>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {auth} from "../api/firebase";
 import {
   signInWithPopup,
@@ -9,10 +9,9 @@ import {
 } from "firebase/auth";
 import {useHistory} from "react-router";
 import getUserProject from "../api/getUserProject";
+import {NotifContext} from "./NotifContext";
 
 type AuthContextType = {
-  errorMessage?: string;
-  showErrorMessage?: boolean;
   logout: () => void;
   login: (method: "Google" | "Facebook" | "Github") => void;
   loginWithEmail: (email: string, password: string) => void;
@@ -43,10 +42,8 @@ const Authentication = ({children}: any) => {
     id: string;
   }>();
   const [projects, setProjects] = useState([]);
-  const [errorMessage, setErrorMessage] = useState();
   const [loadingData, setLoadingData] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [timer, setCurrentTimer] = useState();
+  const {setMessageData, setShowNotification} = useContext(NotifContext);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -71,19 +68,6 @@ const Authentication = ({children}: any) => {
     }
   }, [userData]);
 
-  useEffect(() => {
-    if (showErrorMessage && !timer) {
-      const timeout = setTimeout(() => {
-        setShowErrorMessage(false);
-        setCurrentTimer(undefined);
-      }, 3000);
-      setCurrentTimer(timeout as any);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [showErrorMessage]);
-
   const loginWithEmail = async (email: string, password: string) => {
     try {
       setLoadingData(true);
@@ -97,8 +81,11 @@ const Authentication = ({children}: any) => {
       } as any);
       history.push("/home");
     } catch (e) {
-      setErrorMessage(e.code);
-      setShowErrorMessage(true);
+      setMessageData({
+        message: e.code,
+        type: "error",
+      });
+      setShowNotification(true);
     }
     setLoadingData(false);
   };
@@ -122,7 +109,11 @@ const Authentication = ({children}: any) => {
       } as any);
       history.push("/home");
     } catch (e) {
-      console.log(e);
+      setMessageData({
+        message: e.code,
+        type: "error",
+      });
+      setShowNotification(true);
     }
     setLoadingData(false);
   };
@@ -132,7 +123,11 @@ const Authentication = ({children}: any) => {
       auth.signOut();
       history.push("/login");
     } catch (e) {
-      console.log(e);
+      setMessageData({
+        message: e.code,
+        type: "error",
+      });
+      setShowNotification(true);
     }
   };
 
@@ -144,9 +139,7 @@ const Authentication = ({children}: any) => {
         projects,
         userData,
         loadingData,
-        errorMessage,
         loginWithEmail,
-        showErrorMessage,
       }}
     >
       {children}

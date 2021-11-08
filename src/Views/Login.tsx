@@ -2,46 +2,30 @@ import React, {useContext} from "react";
 import {useForm} from "react-hook-form";
 import {AuthenticationContext} from "../contexts/AuthContext";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {Transition} from "@headlessui/react";
 
 const Login = () => {
-  const {login, loadingData, errorMessage, showErrorMessage} = useContext(
-    AuthenticationContext
-  );
+  const {login, loadingData} = useContext(AuthenticationContext);
 
   const loginMethods = [
     {
       img: "https://img.icons8.com/fluency/48/000000/google-logo.png",
       methods: "Google",
-    },
-    {
-      img: "https://img.icons8.com/color/48/000000/facebook-new.png",
-      methods: "Facebook",
+      disabled: false,
     },
     {
       img: "https://img.icons8.com/fluency/48/000000/github.png",
       methods: "Github",
+      disabled: false,
+    },
+    {
+      img: "https://img.icons8.com/color/48/000000/facebook-new.png",
+      methods: "Facebook",
+      disabled: true,
     },
   ];
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col select-none relative">
-      <div className="absolute top-5 w-full flex flex-row justify-center">
-        <Transition
-          show={showErrorMessage}
-          enter="transition-opacity duration-75"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity duration-150"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="bg-red-200 p-2 text-red-600 rounded border border-red-500">
-            {errorMessage}
-          </div>
-        </Transition>
-      </div>
-
       <div className="flex flex-col w-full items-center">
         <img
           src="https://img.icons8.com/ios/100/000000/black-and-white.png"
@@ -66,25 +50,27 @@ const Login = () => {
 
           <div className="px-2 lg:ml-8 lg:mt-0 mt-8">
             <div className="flex flex-col justify-evenly h-full">
-              {loginMethods.map(({methods, img}) => (
-                <div
+              {loginMethods.map(({methods, img, disabled}) => (
+                <button
                   key={methods}
-                  className="
+                  disabled={disabled}
+                  className={`
                   mb-2
                   border
                   border-black                 
                   px-5 py-4 flex 
                   duration-200
                   flex-row items-center 
-                  justify-between rounded 
-                  cursor-pointer hover:shadow-md"
+                  justify-between rounded                   
+                  ${disabled ? "opacity-30" : "cursor-pointer hover:shadow-md"}
+                  `}
                   onClick={() =>
                     login(methods as "Github" | "Facebook" | "Google")
                   }
                 >
                   <div>Continue With {methods}</div>
                   <img className="w-6 h-6 ml-4" src={img} />
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -128,12 +114,13 @@ const LoginForm = () => {
             errors.email?.type === "required"
               ? "Email is required"
               : errors.email?.type === "pattern"
-              ? "Please a valid email"
+              ? "Please enter a valid email"
               : errors.email
           }
         />
         <input
           placeholder="Email Address"
+          autoComplete="off"
           type="email"
           {...register("email", {
             required: true,
@@ -157,6 +144,7 @@ const LoginForm = () => {
         />
         <input
           placeholder="Password"
+          autoComplete="off"
           type="password"
           {...register("password", {required: true, minLength: 8})}
           className={`border-b rounded-t focus:bg-gray-100 p-3 my-2 border-gray outline-none w-full ${
