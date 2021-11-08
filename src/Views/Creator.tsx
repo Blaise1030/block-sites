@@ -92,7 +92,7 @@ const Creator = () => {
       </div>
       <ChangeBackgroundImage />
       <div
-        className="mx-auto relative rounded border-black border"
+        className="mx-auto relative border-black border"
         style={{width: creatorWidth + 4}}
       >
         <div className="border-white border">

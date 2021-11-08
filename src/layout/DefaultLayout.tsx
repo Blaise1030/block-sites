@@ -10,7 +10,7 @@ const DefaultLayout = ({children}: any) => {
   const {logout} = useContext(AuthenticationContext);
   const {width} = useWindowDimensions();
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full overflow-y-auto">
       <div className="fixed left-0 bottom-0 flex flex-col items-center justify-center h-full p-2">
         <div className="text-black flex flex-col border-2 p-2 rounded border-black bg-white">
           <Link to={`/home/main`}>

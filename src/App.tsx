@@ -7,6 +7,8 @@ const Profile = React.lazy(() => import("../src/views/Profile"));
 const Project = React.lazy(() => import("../src/views/Project"));
 const Creator = React.lazy(() => import("../src/views/Creator"));
 const Previewer = React.lazy(() => import("../src/views/Previewer"));
+const ProjectDetails = React.lazy(() => import("../src/views/ProjectDetails"));
+import LoadingIndicator from "./components/LoadingIndicator";
 import initializeFirebase from "./api/firebase";
 import DefaultLayout from "./layout/DefaultLayout";
 import EditorRenderer from "./contexts/EditorContext";
@@ -18,7 +20,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import LoadingIndicator from "./components/LoadingIndicator";
 
 const App = () => {
   useEffect(() => {
@@ -37,6 +38,17 @@ const App = () => {
                 </Suspense>
               );
             }}
+          />
+
+          <Route
+            path="/project-details/:id"
+            component={() => (
+              <DefaultLayout>
+                <Suspense fallback={<LoadingIndicator />}>
+                  <ProjectDetails />
+                </Suspense>
+              </DefaultLayout>
+            )}
           />
 
           <Authentication>
@@ -80,6 +92,7 @@ const App = () => {
                 </DefaultLayout>
               }
             />
+
             <CreatorRenderer>
               <RouteGaurds
                 path="/preview/:id"

@@ -61,6 +61,7 @@ const Project = () => {
         >
           {!isMax() ? (
             <Modal
+              showWhiteBackground={true}
               modal={<AddProjectModal />}
               button={<AddProjectComponent componentHeight={componentHeight} />}
             />
