@@ -1,12 +1,12 @@
 import React, {Fragment, useContext, useState} from "react";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
-import {CreatorContext} from "../contexts/CreatorContext";
-import {EditorContext} from "../contexts/EditorContext";
-import RGBAToHexA from "../helper/rgbaHexConverter";
+import {CreatorContext} from "../../contexts/CreatorContext";
+import {EditorContext} from "../../contexts/EditorContext";
+import RGBAToHexA from "../../helper/rgbaHexConverter";
 import {ChromePicker} from "react-color";
 import Dropzone from "react-dropzone";
-import Slider from "rc-slider";
 import {Tab} from "@headlessui/react";
+import Slider from "rc-slider";
 
 type ImageProps = {
   backgroundColor?: string;

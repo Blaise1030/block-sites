@@ -1,8 +1,8 @@
 import {useContext} from "react";
 import PlusIcon from "@heroicons/react/solid/PlusIcon";
-import {EditorContext} from "../contexts/EditorContext";
-import {CreatorContext} from "../contexts/CreatorContext";
-import {IMAGE, TEXT} from "../api/constant";
+import {EditorContext} from "../../contexts/EditorContext";
+import {CreatorContext} from "../../contexts/CreatorContext";
+import {IMAGE, TEXT} from "../../api/constant";
 
 const Empty = ({id}: {id: string}) => {
   const {setEditor} = useContext(EditorContext);

@@ -1,10 +1,10 @@
 import React, {Fragment, useContext, useState} from "react";
 import PhotographIcon from "@heroicons/react/solid/PhotographIcon";
-import {CreatorContext} from "../contexts/CreatorContext";
-import {EditorContext} from "../contexts/EditorContext";
+import {CreatorContext} from "../../contexts/CreatorContext";
+import {EditorContext} from "../../contexts/EditorContext";
 import TextareaAutosize from "react-textarea-autosize";
-import RGBAToHexA from "../helper/rgbaHexConverter";
-import useWindowDimensions, {widthResolver} from "../helper";
+import RGBAToHexA from "../../helper/rgbaHexConverter";
+import useWindowDimensions, {widthResolver} from "../../helper";
 import {ChromePicker} from "react-color";
 import Dropzone from "react-dropzone";
 import Slider from "rc-slider";

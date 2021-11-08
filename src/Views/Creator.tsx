@@ -1,7 +1,5 @@
 import Dropzone from "react-dropzone";
-import Text from "../components/Text";
-import Image from "../components/Image";
-import Empty from "../components/Empty";
+
 import {Disclosure} from "@headlessui/react";
 import ReactGridLayout from "react-grid-layout";
 import React, {useContext, useEffect, useState} from "react";
@@ -14,6 +12,9 @@ import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import getProjectData from "../api/getPageData";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {putProjectData} from "../api/putPageData";
+import Text from "../components/CreatorComponent/Text";
+import Image from "../components/CreatorComponent/Image";
+import Empty from "../components/CreatorComponent/Empty";
 
 const Creator = () => {
   const history = useHistory();
