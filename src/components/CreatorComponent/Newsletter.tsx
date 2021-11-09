@@ -20,7 +20,7 @@ const Newsletter = ({w, columns}) => {
           />
         )}
         <div
-          className={`bg-black text-white p-2 rounded hover:shadow-lg ${
+          className={`bg-black text-white p-2 rounded hover:shadow-lg duration-200 ${
             !showButtonOnly ? "text-2xl" : ""
           }`}
         >
