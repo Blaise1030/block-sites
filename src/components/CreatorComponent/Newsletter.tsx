@@ -1,5 +1,4 @@
-import {useContext, useEffect, useState} from "react";
-import {CreatorContext} from "../../contexts/CreatorContext";
+import {useEffect, useState} from "react";
 
 const Newsletter = ({w, columns}) => {
   //   const {columns} = useContext(CreatorContext);
