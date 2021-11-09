@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions, {widthResolver} from "../helper";
+import {TEXT, IMAGE, EMPTY, NEWSLETTER} from "../api/constant";
 
 export type RendererPropType = {
   pageData: {
@@ -26,13 +27,15 @@ export type RendererPropType = {
 const Renderer = ({pageData}: RendererPropType) => {
   const {width} = useWindowDimensions();
 
-  const renderer = (data: any, i: any) => {
+  const renderer = (data: any, i: any, gridInfo: any) => {
     switch (data.type) {
-      case "text":
+      case TEXT:
         return <DisplayText {...data} id={i} />;
-      case "image":
+      case IMAGE:
         return <DisplayImage {...data} id={i} />;
-      case "empty":
+      case NEWSLETTER:
+        return <DisplayNewsletter {...data} id={i} {...gridInfo} />;
+      case EMPTY:
         return <DisplayEmpty />;
     }
   };
@@ -72,7 +75,7 @@ const Renderer = ({pageData}: RendererPropType) => {
                 width: (widthResolver(width) * w) / pageData.columns,
               }}
             >
-              {renderer(data, i)}
+              {renderer(data, i, {w, h, data, i})}
             </div>
           ))}
         </ReactGridLayout>
@@ -81,29 +84,23 @@ const Renderer = ({pageData}: RendererPropType) => {
   );
 };
 
-const DisplayEmpty = () => <div className="bg-transparent"></div>;
-
-const DisplayImage = ({
-  backgroundColor,
-  borderRadius,
-  padding,
-  src,
-  id,
-}: any) => (
-  <div
-    style={{backgroundColor: backgroundColor, padding: `${padding}rem`}}
-    className="w-full h-full"
-  >
-    <img
-      className={`object-cover h-full w-full`}
-      style={{borderRadius: `${borderRadius}rem`}}
-      src={src}
-      alt="img"
-      id={id}
-    />
-  </div>
+const DisplayEmpty = React.memo(() => <div className="bg-transparent"></div>);
+const DisplayImage = React.memo(
+  ({backgroundColor, borderRadius, padding, src, id}: any) => (
+    <div
+      style={{backgroundColor: backgroundColor, padding: `${padding}rem`}}
+      className="w-full h-full"
+    >
+      <img
+        className={`object-cover h-full w-full`}
+        style={{borderRadius: `${borderRadius}rem`}}
+        src={src}
+        alt="img"
+        id={id}
+      />
+    </div>
+  )
 );
-
 const DisplayText = React.memo(
   ({
     backgroundColor,
@@ -161,5 +158,27 @@ const DisplayText = React.memo(
     );
   }
 );
+const DisplayNewsletter = React.memo(({columns, w}: any) => {
+  const showButtonOnly = w > columns / 2;
+
+  return (
+    <div className="flex flex-row w-full items-center justify-center">
+      {showButtonOnly && (
+        <input
+          disabled
+          className="border rounded mr-1 border-black outline-none p-1.5 w-1/3"
+          type="text"
+        />
+      )}
+      <div
+        className={`bg-black cursor-pointer text-white p-2 rounded hover:shadow-lg duration-200 ${
+          !showButtonOnly ? "text-2xl" : ""
+        }`}
+      >
+        Subscribe
+      </div>
+    </div>
+  );
+});
 
 export default Renderer;
