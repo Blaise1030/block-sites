@@ -15,6 +15,8 @@ import {putProjectData} from "../api/putPageData";
 import Text from "../components/CreatorComponent/Text";
 import Image from "../components/CreatorComponent/Image";
 import Empty from "../components/CreatorComponent/Empty";
+import Newsletter from "../components/CreatorComponent/Newsletter";
+import {TEXT, IMAGE, EMPTY, NEWSLETTER} from "../api/constant";
 
 const Creator = () => {
   const history = useHistory();
@@ -114,15 +116,15 @@ const Creator = () => {
                 )
               }
             >
-              {layout?.map(({i, data}: any) => (
+              {layout?.map((info: any) => (
                 <div
                   className="border border-white border-transparent cursor-pointer box-border relative"
-                  key={i}
+                  key={info.i}
                 >
                   <GridTile
-                    onClick={() => deflateEditor(i)}
-                    data={data}
-                    id={i}
+                    onClick={() => deflateEditor(info.i)}
+                    data={{...info, ...info.data}}
+                    id={info.i}
                   />
                   <div className=" absolute bottom-2 right-2 w-2 h-2 rounded-full bg-gray-800 shadow-lg" />
                 </div>
@@ -139,11 +141,13 @@ const GridTile = React.memo(
   ({id, data, onClick}: {data: any; id: string; onClick: Function}) => {
     const renderer = () => {
       switch (data.type) {
-        case "text":
+        case TEXT:
           return <Text id={id} {...data} />;
-        case "image":
+        case IMAGE:
           return <Image id={id} {...data} />;
-        case "empty":
+        case NEWSLETTER:
+          return <Newsletter id={id} {...data} />;
+        case EMPTY:
           return <Empty id={id} />;
       }
     };

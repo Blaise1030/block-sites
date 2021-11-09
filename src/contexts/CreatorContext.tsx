@@ -85,6 +85,7 @@ const CreatorRenderer = ({children}: any) => {
           ...data,
           h: data.h,
           w: Math.min(data.w, columns),
+          columns,
         };
       })
     );
@@ -100,6 +101,7 @@ const CreatorRenderer = ({children}: any) => {
               data: {
                 ...layout.data,
                 ...updatedData,
+                columns,
               },
             };
       })
@@ -112,6 +114,7 @@ const CreatorRenderer = ({children}: any) => {
         data: {
           type: "empty",
           creatorWidth,
+          columns,
         },
         w: 1,
         h: 1,
@@ -135,6 +138,7 @@ const CreatorRenderer = ({children}: any) => {
             data: {
               type: "empty",
               creatorWidth,
+              columns,
             },
             resizeHandles: ["se", "n", "s", "e", "w"],
             i: `${i}`,
