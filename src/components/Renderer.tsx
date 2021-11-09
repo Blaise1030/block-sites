@@ -162,10 +162,9 @@ const DisplayNewsletter = React.memo(({columns, w}: any) => {
   const showButtonOnly = w > columns / 2;
 
   return (
-    <div className="flex flex-row w-full items-center justify-center">
+    <div className="flex flex-row w-full items-center justify-center h-full">
       {showButtonOnly && (
         <input
-          disabled
           className="border rounded mr-1 border-black outline-none p-1.5 w-1/3"
           type="text"
         />
