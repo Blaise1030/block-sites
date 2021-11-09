@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import ReactGridLayout from "react-grid-layout";
 import useWindowDimensions, {widthResolver} from "../helper";
 import {TEXT, IMAGE, EMPTY, NEWSLETTER} from "../api/constant";
+import Modal from "./Modal";
 
 export type RendererPropType = {
   pageData: {
@@ -42,7 +43,7 @@ const Renderer = ({pageData}: RendererPropType) => {
 
   return (
     <div
-      className="w-full h-full overflow-auto"
+      className="w-full h-full overflow-auto bg-black"
       style={{
         backgroundImage: `url(${pageData.backgroundImage})`,
         backgroundRepeat: "no-repeat",
@@ -159,25 +160,54 @@ const DisplayText = React.memo(
   }
 );
 const DisplayNewsletter = React.memo(({columns, w}: any) => {
-  const showButtonOnly = w > columns / 2;
+  const showButtonOnly = w <= columns / 2;
 
   return (
     <div className="flex flex-row w-full items-center justify-center h-full">
-      {showButtonOnly && (
-        <input
-          className="border rounded mr-1 border-black outline-none p-1.5 w-1/3"
-          type="text"
+      {!showButtonOnly ? (
+        <div className="flex flex-row w-full items-center justify-center">
+          <input
+            className="border rounded mr-1 border-black outline-none p-1.5 w-1/3"
+            type="text"
+          />
+          <div className="border-gray border bg-black cursor-pointer text-white py-2 px-3 rounded hover:shadow-lg duration-200">
+            Subscribe
+          </div>
+        </div>
+      ) : (
+        <Modal
+          modal={<DisplayNewsletterModal />}
+          showWhiteBackground
+          button={
+            <div className="border-gray border bg-black cursor-pointer text-white py-2 px-3 rounded hover:shadow-lg duration-200 text-xl">
+              Subscribe
+            </div>
+          }
         />
       )}
-      <div
-        className={`bg-black cursor-pointer text-white p-2 rounded hover:shadow-lg duration-200 ${
-          !showButtonOnly ? "text-2xl" : ""
-        }`}
-      >
-        Subscribe
-      </div>
     </div>
   );
 });
+
+const DisplayNewsletterModal = ({closeModal}: any) => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    closeModal();
+  };
+  return (
+    <form className="flex flex-col" onSubmit={onSubmit}>
+      <div className="text-2xl font-bold">Subscribe</div>
+      <input
+        className="border-b border-black outline-none py-2 my-2 px-1"
+        type="email"
+        required
+      />
+      <input
+        className="w-min py-2 px-3 text-white bg-black rounded hover:shadow-md cursor-pointer ml-auto"
+        type="submit"
+      />
+    </form>
+  );
+};
 
 export default Renderer;
