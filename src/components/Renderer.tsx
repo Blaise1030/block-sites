@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ReactGridLayout from "react-grid-layout";
-import useWindowDimensions, {widthResolver} from "../helper";
+import useWindowDimensions, {MOBILE_APP_WIDTH, widthResolver} from "../helper";
 import {TEXT, IMAGE, EMPTY, NEWSLETTER} from "../api/constant";
 import Modal from "./Modal";
 
@@ -160,7 +160,7 @@ const DisplayText = React.memo(
   }
 );
 const DisplayNewsletter = React.memo(({columns, w}: any) => {
-  const showButtonOnly = w <= columns / 2;
+  const showButtonOnly = w <= columns / 2 || MOBILE_APP_WIDTH;
 
   return (
     <div className="flex flex-row w-full items-center justify-center h-full">

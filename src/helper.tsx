@@ -25,3 +25,5 @@ export default function useWindowDimensions() {
 }
 
 export const widthResolver = (width: number) => (width <= 1024 ? width : 800);
+export const MOBILE_APP_WIDTH = window.innerWidth <= 1024;
+export const DESKTOP_APP_WIDTH = window.innerWidth > 1024;
