@@ -50,8 +50,9 @@ const Renderer = ({pageData}: RendererPropType) => {
         backgroundSize: "cover",
       }}
     >
+      <NavigationBar />
       <div
-        className="mx-auto relative rounded"
+        className="mx-auto relative rounded mt-16"
         style={{width: widthResolver(width)}}
       >
         <ReactGridLayout
@@ -85,7 +86,6 @@ const Renderer = ({pageData}: RendererPropType) => {
   );
 };
 
-const DisplayEmpty = React.memo(() => <div className="bg-transparent"></div>);
 const DisplayImage = React.memo(
   ({backgroundColor, borderRadius, padding, src, id}: any) => (
     <div
@@ -188,7 +188,7 @@ const DisplayNewsletter = React.memo(({columns, w}: any) => {
     </div>
   );
 });
-
+const DisplayEmpty = React.memo(() => <div className="bg-transparent"></div>);
 const DisplayNewsletterModal = ({closeModal}: any) => {
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -207,6 +207,35 @@ const DisplayNewsletterModal = ({closeModal}: any) => {
         type="submit"
       />
     </form>
+  );
+};
+
+const NavigationBar = ({}) => {
+  const {width} = useWindowDimensions();
+
+  return (
+    <div
+      className="
+        z-10 h-16 flex 
+        justify-between                    
+        fixed shadow w-full 
+        bg-white items-center
+        border border-b flex-row"
+    >
+      <div
+        className="m-auto flex-row flex justify-between items-center"
+        style={{width: widthResolver(width)}}
+      >
+        <div className="flex flex-row items-center">
+          <div className="font-bold mr-2">Business</div>
+          <div className="">BusinessName</div>
+        </div>
+        {["Page1", "Page2", "Page3"].map((pageName) => (
+          <a className="cursor-pointer text-sm hover:underline">{pageName}</a>
+        ))}
+        <div className="cursor-pointer text-sm hover:underline">Dropdown</div>
+      </div>
+    </div>
   );
 };
 

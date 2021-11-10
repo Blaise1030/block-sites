@@ -61,11 +61,11 @@ const Previewer = () => {
       <div
         className="               
         hover:shadow-md
-        duration-200     
         cursor-pointer
+        duration-200             
+        bottom-8                                     
         left-8      
-        fixed
-        top-8                                     
+        fixed        
         z-20"
       >
         <div
@@ -85,9 +85,9 @@ const Previewer = () => {
           <div
             className="               
           cursor-pointer                
-          right-3        
-          fixed
-          bottom-3                              
+          bottom-8                              
+          right-8        
+          fixed          
           z-10"
           >
             <div
